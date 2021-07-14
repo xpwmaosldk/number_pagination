@@ -3,7 +3,7 @@ Paging in a popular way on the web
 
 # Parameters
 ```
-  Fucition(int) listner
+  Fuction(int) listner
   int totalPage
   int threshold
   int currentPage;
