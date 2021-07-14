@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class NumberPagination extends StatefulWidget {
   final Function(int) listner;
   final int totalPage;
-  final int size;
+  final int threshold;
   final int currentPage;
   final Color primaryColor;
   final Color subColor;
@@ -13,7 +13,7 @@ class NumberPagination extends StatefulWidget {
   NumberPagination({
     required this.listner,
     required this.totalPage,
-    this.size = 10,
+    this.threshold = 10,
     this.currentPage = 1,
     this.primaryColor = Colors.black,
     this.subColor = Colors.white,
@@ -53,11 +53,11 @@ class _NumberPaginationState extends State<NumberPagination> {
   }
 
   void _rangeSet() {
-    rangeStart = currentPage % widget.size == 0
-        ? currentPage - widget.size
-        : (currentPage ~/ widget.size) * widget.size;
+    rangeStart = currentPage % widget.threshold == 0
+        ? currentPage - widget.threshold
+        : (currentPage ~/ widget.threshold) * widget.threshold;
 
-    rangeEnd = rangeStart + widget.size;
+    rangeEnd = rangeStart + widget.threshold;
   }
 
   @override
@@ -91,8 +91,8 @@ class _NumberPaginationState extends State<NumberPagination> {
           ),
           ...List.generate(
             rangeEnd <= widget.totalPage
-                ? widget.size
-                : widget.totalPage % widget.size,
+                ? widget.threshold
+                : widget.totalPage % widget.threshold,
             (index) => Flexible(
               child: InkWell(
                 splashColor: Colors.transparent,
@@ -103,7 +103,7 @@ class _NumberPaginationState extends State<NumberPagination> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
-                    color: (currentPage - 1) % widget.size == index
+                    color: (currentPage - 1) % widget.threshold == index
                         ? primaryColor
                         : subColor,
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -118,7 +118,7 @@ class _NumberPaginationState extends State<NumberPagination> {
                   child: Text(
                     '${index + 1 + rangeStart}',
                     style: TextStyle(
-                      color: (currentPage - 1) % widget.size == index
+                      color: (currentPage - 1) % widget.threshold == index
                           ? Colors.white
                           : Colors.black,
                     ),
