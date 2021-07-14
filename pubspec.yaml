@@ -1,7 +1,7 @@
 name: number_pagination
-description: A new Flutter package project.
+description: classic web style pagination.
 version: 0.0.1
-homepage:
+homepage: https://github.com/xpwmaosldk/number_pagination
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
