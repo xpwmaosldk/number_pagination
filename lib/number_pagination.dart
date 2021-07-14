@@ -14,7 +14,7 @@ class NumberPagination extends StatefulWidget {
     required this.listner,
     required this.totalPage,
     this.size = 10,
-    this.currentPage = 0,
+    this.currentPage = 1,
     this.primaryColor = Colors.black,
     this.subColor = Colors.white,
   });
@@ -24,33 +24,40 @@ class NumberPagination extends StatefulWidget {
 }
 
 class _NumberPaginationState extends State<NumberPagination> {
-  int currentPage = 0;
-  int rangeStart = 0;
-  int rangeEnd = 0;
-  Color primaryColor = Colors.black;
-  Color subColor = Colors.white;
+  late int currentPage;
+  late int rangeStart;
+  late int rangeEnd;
+  late Color primaryColor;
+  late Color subColor;
 
   @override
   void initState() {
-    currentPage = widget.currentPage - 1;
-    rangeStart = (widget.currentPage ~/ widget.size) * widget.size;
-    rangeEnd = rangeStart + widget.size;
+    currentPage = widget.currentPage;
     primaryColor = widget.primaryColor;
     subColor = widget.subColor;
+    _rangeSet();
     super.initState();
   }
 
   void changePage(int page) {
-    if (page < 0) page = 0;
+    print(page);
+    if (page <= 0) page = 1;
 
-    if (page > widget.totalPage - 1) page = widget.totalPage - 1;
+    if (page > widget.totalPage) page = widget.totalPage;
 
     setState(() {
       currentPage = page;
-      rangeStart = (currentPage ~/ widget.size) * widget.size;
-      rangeEnd = rangeStart + widget.size;
+      _rangeSet();
       widget.listner(currentPage);
     });
+  }
+
+  void _rangeSet() {
+    rangeStart = currentPage % widget.size == 0
+        ? currentPage - widget.size
+        : (currentPage ~/ widget.size) * widget.size;
+
+    rangeEnd = rangeStart + widget.size;
   }
 
   @override
@@ -83,20 +90,20 @@ class _NumberPaginationState extends State<NumberPagination> {
             width: 10,
           ),
           ...List.generate(
-            rangeEnd < widget.totalPage
+            rangeEnd <= widget.totalPage
                 ? widget.size
                 : widget.totalPage % widget.size,
             (index) => Flexible(
               child: InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: () => changePage(index),
+                onTap: () => changePage(index + 1 + rangeStart),
                 child: Container(
                   margin: const EdgeInsets.all(4),
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
-                    color: currentPage % widget.size == index
+                    color: (currentPage - 1) % widget.size == index
                         ? primaryColor
                         : subColor,
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -111,7 +118,7 @@ class _NumberPaginationState extends State<NumberPagination> {
                   child: Text(
                     '${index + 1 + rangeStart}',
                     style: TextStyle(
-                      color: currentPage % widget.size == index
+                      color: (currentPage - 1) % widget.size == index
                           ? Colors.white
                           : Colors.black,
                     ),

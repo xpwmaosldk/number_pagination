@@ -37,7 +37,7 @@ class MyHomePage extends StatelessWidget {
             //do somthing for selected page
           },
           totalPage: 100,
-          currentPage: 3, // picked number when render page
+          currentPage: 3, // picked number when init page
         ),
       ],
     );
