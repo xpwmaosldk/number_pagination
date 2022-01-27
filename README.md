@@ -1,4 +1,4 @@
-![화면 기록 2022-01-27 오후 5 56 29](https://user-images.githubusercontent.com/13146337/151349036-951c8f41-0ad3-47c5-9a31-a35b27bfb28b.gif)
+![preview](https://user-images.githubusercontent.com/13146337/151349858-13e27aae-f5a2-40c7-9848-f94b00203472.gif)
 # number_pagination
 Flutter number pagination in a popular way on the web
 
