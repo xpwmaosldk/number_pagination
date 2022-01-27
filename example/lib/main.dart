@@ -18,7 +18,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedPageNumber = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,15 +36,20 @@ class MyHomePage extends StatelessWidget {
             alignment: Alignment.center,
             height: 100,
             color: Colors.yellow[200],
-            child: Text('PAGE INFO'),
+            child: Text('PAGE INFO $selectedPageNumber'), //do manage state
           ),
         ),
         NumberPagination(
-          listner: (int selectedPage) {
+          onNumberChange: (int pageNumber) {
             //do somthing for selected page
+            setState(() {
+              selectedPageNumber = pageNumber;
+            });
           },
-          totalPage: 100,
-          currentPage: 3, // picked number when init page
+          pageTotal: 100,
+          pageInit: 3, // picked number when init page
+          colorPrimary: Colors.red,
+          colorSub: Colors.yellow,
         ),
       ],
     );
