@@ -1,14 +1,16 @@
-
-![ex](https://user-images.githubusercontent.com/13146337/125579517-bb553233-a8b5-42fd-8922-072550b6803b.png)
+![화면 기록 2022-01-27 오후 5 56 29](https://user-images.githubusercontent.com/13146337/151349036-951c8f41-0ad3-47c5-9a31-a35b27bfb28b.gif)
 # number_pagination
-Paging in a popular way on the web
+Flutter number pagination in a popular way on the web
 
-# Parameters
-```
-  Function(int) listner
-  int totalPage
-  int threshold
-  int currentPage;
-  int primaryColor;
-  int subColor;
-```
+### Options
+ - Function(int) onNumberChange
+ - int pageTotal
+ - int pageInit
+ - int threshold
+ - Color colorPrimary
+ - Color colorSub
+ - Widget? controlButton
+ - Widget? iconToFirst
+ - Widget? iconPrevious
+ - Widget? iconNext
+ - Widget? iconToLast
