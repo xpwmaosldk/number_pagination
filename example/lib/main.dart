@@ -24,7 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var selectedPageNumber = 0;
+  var selectedPageNumber = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
           pageTotal: 100,
-          pageInit: 3, // picked number when init page
+          pageInit: selectedPageNumber, // picked number when init page
           colorPrimary: Colors.red,
           colorSub: Colors.yellow,
         ),
