@@ -132,7 +132,10 @@ class _NumberPaginationState extends State<NumberPagination> {
             onTap: () => _changePage(0),
             child: Stack(
               children: [
-                if (widget.controlButton != null) ...[widget.controlButton!, iconToFirst] else
+                if (widget.controlButton != null) ...[
+                  widget.controlButton!,
+                  iconToFirst
+                ] else
                   _defaultControlButton(iconToFirst),
               ],
             ),
@@ -144,7 +147,10 @@ class _NumberPaginationState extends State<NumberPagination> {
             onTap: () => _changePage(--currentPage),
             child: Stack(
               children: [
-                if (widget.controlButton != null) ...[widget.controlButton!, iconPrevious] else
+                if (widget.controlButton != null) ...[
+                  widget.controlButton!,
+                  iconPrevious
+                ] else
                   _defaultControlButton(iconPrevious),
               ],
             ),
@@ -153,7 +159,9 @@ class _NumberPaginationState extends State<NumberPagination> {
             width: 10,
           ),
           ...List.generate(
-            rangeEnd <= widget.pageTotal ? widget.threshold : widget.pageTotal % widget.threshold,
+            rangeEnd <= widget.pageTotal
+                ? widget.threshold
+                : widget.pageTotal % widget.threshold,
             (index) => Flexible(
               child: InkWell(
                 splashColor: Colors.transparent,
@@ -161,9 +169,12 @@ class _NumberPaginationState extends State<NumberPagination> {
                 onTap: () => _changePage(index + 1 + rangeStart),
                 child: Container(
                   margin: const EdgeInsets.all(4),
-                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   decoration: BoxDecoration(
-                    color: (currentPage - 1) % widget.threshold == index ? widget.colorPrimary : widget.colorSub,
+                    color: (currentPage - 1) % widget.threshold == index
+                        ? widget.colorPrimary
+                        : widget.colorSub,
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     boxShadow: [
                       BoxShadow(
@@ -178,7 +189,9 @@ class _NumberPaginationState extends State<NumberPagination> {
                     style: TextStyle(
                       fontSize: widget.fontSize,
                       fontFamily: widget.fontFamily,
-                      color: (currentPage - 1) % widget.threshold == index ? widget.colorSub : widget.colorPrimary,
+                      color: (currentPage - 1) % widget.threshold == index
+                          ? widget.colorSub
+                          : widget.colorPrimary,
                     ),
                   ),
                 ),
@@ -192,7 +205,10 @@ class _NumberPaginationState extends State<NumberPagination> {
             onTap: () => _changePage(++currentPage),
             child: Stack(
               children: [
-                if (widget.controlButton != null) ...[widget.controlButton!, iconNext] else
+                if (widget.controlButton != null) ...[
+                  widget.controlButton!,
+                  iconNext
+                ] else
                   _defaultControlButton(iconNext),
               ],
             ),
@@ -204,7 +220,10 @@ class _NumberPaginationState extends State<NumberPagination> {
             onTap: () => _changePage(widget.pageTotal),
             child: Stack(
               children: [
-                if (widget.controlButton != null) ...[widget.controlButton!, iconToLast] else
+                if (widget.controlButton != null) ...[
+                  widget.controlButton!,
+                  iconToLast
+                ] else
                   _defaultControlButton(iconToLast),
               ],
             ),
