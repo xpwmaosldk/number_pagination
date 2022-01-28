@@ -3,20 +3,9 @@ library number_pagination;
 import 'package:flutter/material.dart';
 
 class NumberPagination extends StatefulWidget {
-  final Function(int) onNumberChange;
-  final int pageTotal;
-  final int pageInit;
-  final int threshold;
-  final Color colorPrimary;
-  final Color colorSub;
-  final Widget? controlButton;
-  final Widget? iconToFirst;
-  final Widget? iconPrevious;
-  final Widget? iconNext;
-  final Widget? iconToLast;
-
-  NumberPagination({
-    required this.onNumberChange,
+  /// Creates a NumberPagination widget.
+  const NumberPagination({
+    required this.onNumberChanged,
     required this.pageTotal,
     this.threshold = 10,
     this.pageInit = 1,
@@ -27,7 +16,48 @@ class NumberPagination extends StatefulWidget {
     this.iconPrevious,
     this.iconNext,
     this.iconToLast,
+    this.fontSize = 15,
+    this.fontFamily,
   });
+
+  ///
+  final Function(int) onNumberChanged;
+
+  ///End of numbers.
+  final int pageTotal;
+
+  ///Page number to be displayed first
+  final int pageInit;
+
+  ///Numbers to show at once.
+  final int threshold;
+
+  ///Color of numbers.
+  final Color colorPrimary;
+
+  ///Color of background.
+  final Color colorSub;
+
+  ///to First, to Previous, to next, to Last Button UI.
+  final Widget? controlButton;
+
+  ///The icon of button to first.
+  final Widget? iconToFirst;
+
+  ///The icon of button to previous.
+  final Widget? iconPrevious;
+
+  ///The icon of button to next.
+  final Widget? iconNext;
+
+  ///The icon of button to last.
+  final Widget? iconToLast;
+
+  ///The size of numbers.
+  final double fontSize;
+
+  ///The fontFamily of numbers.
+  final String? fontFamily;
 
   @override
   _NumberPaginationState createState() => _NumberPaginationState();
@@ -71,7 +101,7 @@ class _NumberPaginationState extends State<NumberPagination> {
     );
   }
 
-  void changePage(int page) {
+  void _changePage(int page) {
     if (page <= 0) page = 1;
 
     if (page > widget.pageTotal) page = widget.pageTotal;
@@ -79,7 +109,7 @@ class _NumberPaginationState extends State<NumberPagination> {
     setState(() {
       currentPage = page;
       _rangeSet();
-      widget.onNumberChange(currentPage);
+      widget.onNumberChanged(currentPage);
     });
   }
 
@@ -99,7 +129,7 @@ class _NumberPaginationState extends State<NumberPagination> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () => changePage(0),
+            onTap: () => _changePage(0),
             child: Stack(
               children: [
                 if (widget.controlButton != null) ...[widget.controlButton!, iconToFirst] else
@@ -111,7 +141,7 @@ class _NumberPaginationState extends State<NumberPagination> {
             width: 4,
           ),
           InkWell(
-            onTap: () => changePage(--currentPage),
+            onTap: () => _changePage(--currentPage),
             child: Stack(
               children: [
                 if (widget.controlButton != null) ...[widget.controlButton!, iconPrevious] else
@@ -128,7 +158,7 @@ class _NumberPaginationState extends State<NumberPagination> {
               child: InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onTap: () => changePage(index + 1 + rangeStart),
+                onTap: () => _changePage(index + 1 + rangeStart),
                 child: Container(
                   margin: const EdgeInsets.all(4),
                   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -146,6 +176,8 @@ class _NumberPaginationState extends State<NumberPagination> {
                   child: Text(
                     '${index + 1 + rangeStart}',
                     style: TextStyle(
+                      fontSize: widget.fontSize,
+                      fontFamily: widget.fontFamily,
                       color: (currentPage - 1) % widget.threshold == index ? widget.colorSub : widget.colorPrimary,
                     ),
                   ),
@@ -157,7 +189,7 @@ class _NumberPaginationState extends State<NumberPagination> {
             width: 10,
           ),
           InkWell(
-            onTap: () => changePage(++currentPage),
+            onTap: () => _changePage(++currentPage),
             child: Stack(
               children: [
                 if (widget.controlButton != null) ...[widget.controlButton!, iconNext] else
@@ -169,7 +201,7 @@ class _NumberPaginationState extends State<NumberPagination> {
             width: 4,
           ),
           InkWell(
-            onTap: () => changePage(widget.pageTotal),
+            onTap: () => _changePage(widget.pageTotal),
             child: Stack(
               children: [
                 if (widget.controlButton != null) ...[widget.controlButton!, iconToLast] else

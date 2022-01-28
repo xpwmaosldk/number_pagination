@@ -1,3 +1,8 @@
+## 0.0.3+0
+- Add more API comment
+- Add fontFamily
+- Add fontSize
+
 ## 0.0.2+0
 - Change options name
 - More support user custom

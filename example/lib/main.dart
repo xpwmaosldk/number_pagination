@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         NumberPagination(
-          onNumberChange: (int pageNumber) {
+          onNumberChanged: (int pageNumber) {
             //do somthing for selected page
             setState(() {
               selectedPageNumber = pageNumber;
