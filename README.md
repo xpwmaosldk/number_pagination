@@ -14,3 +14,5 @@ Flutter number pagination in a popular way on the web
  - Widget? iconPrevious
  - Widget? iconNext
  - Widget? iconToLast
+ - double fontSize
+ - String fontFamily
