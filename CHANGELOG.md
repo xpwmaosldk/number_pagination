@@ -2,6 +2,7 @@
 - Add more API comment
 - Add fontFamily
 - Add fontSize
+- Change onNumberChanged -> onPageChanged
 
 ## 0.0.2+0
 - Change options name

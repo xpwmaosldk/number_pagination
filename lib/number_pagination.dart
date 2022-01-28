@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class NumberPagination extends StatefulWidget {
   /// Creates a NumberPagination widget.
   const NumberPagination({
-    required this.onNumberChanged,
+    required this.onPageChanged,
     required this.pageTotal,
     this.threshold = 10,
     this.pageInit = 1,
@@ -20,8 +20,8 @@ class NumberPagination extends StatefulWidget {
     this.fontFamily,
   });
 
-  ///
-  final Function(int) onNumberChanged;
+  ///Trigger when page changed
+  final Function(int) onPageChanged;
 
   ///End of numbers.
   final int pageTotal;
@@ -109,7 +109,7 @@ class _NumberPaginationState extends State<NumberPagination> {
     setState(() {
       currentPage = page;
       _rangeSet();
-      widget.onNumberChanged(currentPage);
+      widget.onPageChanged(currentPage);
     });
   }
 
