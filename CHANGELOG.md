@@ -1,3 +1,6 @@
+## 0.0.3+2
+- fix dart format
+
 ## 0.0.3+1
 - update readme
 
