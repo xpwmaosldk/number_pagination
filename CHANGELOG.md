@@ -1,3 +1,6 @@
+## 0.0.3+1
+- update readme
+
 ## 0.0.3+0
 - Add more API comment
 - Add fontFamily
