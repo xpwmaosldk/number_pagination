@@ -46,7 +46,16 @@ class _MyHomePageState extends State<MyHomePage> {
               selectedPageNumber = pageNumber;
             });
           },
-          pageTotal: 100,
+          pageTotal: 4,
+          iconsContainerBuilder: (icon) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: icon,
+            );
+          },
           pageInit: selectedPageNumber, // picked number when init page
           colorPrimary: Colors.red,
           colorSub: Colors.yellow,
