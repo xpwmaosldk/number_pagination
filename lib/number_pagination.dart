@@ -2,6 +2,8 @@ library number_pagination;
 
 import 'package:flutter/material.dart';
 
+typedef IconsContainerBuilder = Widget Function(Widget child);
+
 class NumberPagination extends StatefulWidget {
   /// Creates a NumberPagination widget.
   const NumberPagination({
@@ -11,7 +13,7 @@ class NumberPagination extends StatefulWidget {
     this.pageInit = 1,
     this.colorPrimary = Colors.black,
     this.colorSub = Colors.white,
-    this.controlButton,
+    this.iconsContainerBuilder,
     this.iconToFirst,
     this.iconPrevious,
     this.iconNext,
@@ -39,7 +41,7 @@ class NumberPagination extends StatefulWidget {
   final Color colorSub;
 
   ///to First, to Previous, to next, to Last Button UI.
-  final Widget? controlButton;
+  final IconsContainerBuilder? iconsContainerBuilder;
 
   ///The icon of button to first.
   final Widget? iconToFirst;
@@ -85,7 +87,7 @@ class _NumberPaginationState extends State<NumberPagination> {
     super.initState();
   }
 
-  Widget _defaultControlButton(Widget icon) {
+  Widget _buildDefaultIconsContainerBuilder(Widget icon) {
     return AbsorbPointer(
       child: TextButton(
         style: ButtonStyle(
@@ -130,30 +132,18 @@ class _NumberPaginationState extends State<NumberPagination> {
         children: [
           InkWell(
             onTap: () => _changePage(0),
-            child: Stack(
-              children: [
-                if (widget.controlButton != null) ...[
-                  widget.controlButton!,
-                  iconToFirst
-                ] else
-                  _defaultControlButton(iconToFirst),
-              ],
-            ),
+            child: widget.iconsContainerBuilder != null
+                ? widget.iconsContainerBuilder!(iconToFirst)
+                : _buildDefaultIconsContainerBuilder(iconToFirst),
           ),
           SizedBox(
             width: 4,
           ),
           InkWell(
             onTap: () => _changePage(--currentPage),
-            child: Stack(
-              children: [
-                if (widget.controlButton != null) ...[
-                  widget.controlButton!,
-                  iconPrevious
-                ] else
-                  _defaultControlButton(iconPrevious),
-              ],
-            ),
+            child: widget.iconsContainerBuilder != null
+                ? widget.iconsContainerBuilder!(iconPrevious)
+                : _buildDefaultIconsContainerBuilder(iconPrevious),
           ),
           SizedBox(
             width: 10,
@@ -203,30 +193,18 @@ class _NumberPaginationState extends State<NumberPagination> {
           ),
           InkWell(
             onTap: () => _changePage(++currentPage),
-            child: Stack(
-              children: [
-                if (widget.controlButton != null) ...[
-                  widget.controlButton!,
-                  iconNext
-                ] else
-                  _defaultControlButton(iconNext),
-              ],
-            ),
+            child: widget.iconsContainerBuilder != null
+                ? widget.iconsContainerBuilder!(iconNext)
+                : _buildDefaultIconsContainerBuilder(iconNext),
           ),
           SizedBox(
             width: 4,
           ),
           InkWell(
             onTap: () => _changePage(widget.pageTotal),
-            child: Stack(
-              children: [
-                if (widget.controlButton != null) ...[
-                  widget.controlButton!,
-                  iconToLast
-                ] else
-                  _defaultControlButton(iconToLast),
-              ],
-            ),
+            child: widget.iconsContainerBuilder != null
+                ? widget.iconsContainerBuilder!(iconToLast)
+                : _buildDefaultIconsContainerBuilder(iconToLast),
           ),
         ],
       ),
