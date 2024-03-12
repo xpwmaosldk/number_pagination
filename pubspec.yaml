@@ -4,9 +4,9 @@ version: 1.0.0+2
 homepage: https://github.com/xpwmaosldk/number_pagination
 
 screenshots:
-  - description: "It shows how it works at init"
+  - description: "It demonstrates how it works during initialization."
     path: screenshots/screenshots1.png
-  - description: "It shows how it works at perfromed 1 button"
+  - description: "It shows the functionality when the 1 button is pressed."
     path: screenshots/screenshots2.png
 
 environment:
