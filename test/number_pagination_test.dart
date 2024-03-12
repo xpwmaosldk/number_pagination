@@ -12,6 +12,7 @@ void main() {
             onPageChanged: (page) {},
             pageTotal: 100,
             threshold: 10,
+            autoSetState: true,
           ),
         ),
       ),

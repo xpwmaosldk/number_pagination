@@ -18,6 +18,7 @@ class NumberPagination extends StatefulWidget {
     this.iconToLast,
     this.fontSize = 15,
     this.fontFamily,
+    this.autoSetState = false,
   });
 
   ///Trigger when page changed
@@ -26,16 +27,16 @@ class NumberPagination extends StatefulWidget {
   ///End of numbers.
   final int pageTotal;
 
-  ///Page number to be displayed first
+  ///Page number to be displayed first, default is 1.
   final int pageInit;
 
-  ///Numbers to show at once.
+  ///Numbers to show at once. default is 10.
   final int threshold;
 
-  ///Color of numbers.
+  ///Color of numbers. default is black.
   final Color colorPrimary;
 
-  ///Color of background.
+  ///Color of background. default is white.
   final Color colorSub;
 
   ///to First, to Previous, to next, to Last Button UI.
@@ -53,11 +54,14 @@ class NumberPagination extends StatefulWidget {
   ///The icon of button to last.
   final Widget? iconToLast;
 
-  ///The size of numbers.
+  ///The size of numbers. default is 15.
   final double fontSize;
 
   ///The fontFamily of numbers.
   final String? fontFamily;
+
+  ///Make sure setState is called automatically. default is false.
+  final bool autoSetState;
 
   @override
   _NumberPaginationState createState() => _NumberPaginationState();
@@ -82,19 +86,13 @@ class _NumberPaginationState extends State<NumberPagination> {
   }
 
   void _changePage(int page) {
-    if (page <= 0) {
-      currentPage = 1;
-      return;
-    }
+    int newPage = page.clamp(1, widget.pageTotal);
 
-    if (page > widget.pageTotal) {
-      currentPage = widget.pageTotal;
-      return;
+    if (currentPage != newPage) {
+      currentPage = newPage;
+      widget.onPageChanged(currentPage);
+      if (widget.autoSetState) setState(() {});
     }
-
-    currentPage = page;
-    widget.onPageChanged(currentPage);
-    setState(() {});
   }
 
   Widget _buildPageNumbers(int rangeStart, int rangeEnd) {
