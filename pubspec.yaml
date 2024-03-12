@@ -1,6 +1,6 @@
 name: number_pagination
 description: Pagination using number, such as the classic web style pagination.
-version: 1.0.0
+version: 1.0.0+2
 homepage: https://github.com/xpwmaosldk/number_pagination
 
 screenshots:
