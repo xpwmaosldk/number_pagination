@@ -1,8 +1,11 @@
+## 1.0.1
+- Add 'autoSetState' option.
+
 ## 1.0.0
-- Fixing the RenderFlex overflowed error on small screens
+- Fix the RenderFlex overflowed error on small screens
 - Performance improvements
-- Improved code readability
-- Added simple unit tests
+- Improve code readability
+- Add simple unit tests
 
 ## 0.0.3+2
 - fix dart format
