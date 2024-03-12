@@ -17,7 +17,7 @@ Implementing Flutter Number Pagination using a Popular Web Approach
  - Widget? iconToLast
  - double fontSize (default 15)
  - String? fontFamily
- - Bool autoSetState (default false)
+ - bool autoSetState (default false)
 
 # Note
 The number increments in the versions (+numbers) are updates unrelated to functionality (mostly related to pub.dev or documents).
