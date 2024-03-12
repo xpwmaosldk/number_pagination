@@ -1,3 +1,9 @@
+## 1.0.0
+- Fixing the RenderFlex overflowed error on small screens
+- Performance improvements
+- Improved code readability
+- Added simple unit tests
+
 ## 0.0.3+2
 - fix dart format
 

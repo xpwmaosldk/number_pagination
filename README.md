@@ -1,6 +1,6 @@
 ![preview](https://user-images.githubusercontent.com/13146337/151349858-13e27aae-f5a2-40c7-9848-f94b00203472.gif)
 # number_pagination
-Flutter number pagination in a popular way on the web
+Implementing Flutter Number Pagination using a Popular Web Approach
 
 ### Options
  - Function(int) onNumberChange
