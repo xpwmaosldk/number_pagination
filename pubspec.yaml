@@ -1,13 +1,13 @@
 name: number_pagination
-description: Pagination using number, such as the classic web style pagination.
-version: 1.0.0+2
+description: Pagination using numbers, similar to the classic web-style pagination.
+version: 1.0.0+3
 homepage: https://github.com/xpwmaosldk/number_pagination
 
 screenshots:
   - description: "It demonstrates how it works during initialization."
-    path: screenshots/screenshots1.png
+    path: screenshots/screenshots1.webp
   - description: "It shows the functionality when the 1 button is pressed."
-    path: screenshots/screenshots2.png
+    path: screenshots/screenshots2.webp
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
