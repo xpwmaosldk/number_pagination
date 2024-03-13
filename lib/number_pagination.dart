@@ -82,7 +82,7 @@ class _NumberPaginationState extends State<NumberPagination> {
     if (currentPage != newPage) {
       currentPage = newPage;
       widget.onPageChanged(currentPage);
-      // if (widget.autoSetState) setState(() {});
+      if (widget.autoSetState) setState(() {});
     }
   }
 
