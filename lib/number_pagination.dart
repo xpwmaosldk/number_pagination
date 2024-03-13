@@ -12,10 +12,10 @@ class NumberPagination extends StatefulWidget {
     this.colorPrimary = Colors.black,
     this.colorSub = Colors.white,
     this.controlButton,
-    this.iconToFirst,
-    this.iconPrevious,
-    this.iconNext,
-    this.iconToLast,
+    this.iconToFirst = const Icon(Icons.first_page),
+    this.iconPrevious = const Icon(Icons.keyboard_arrow_left),
+    this.iconNext = const Icon(Icons.keyboard_arrow_right),
+    this.iconToLast = const Icon(Icons.last_page),
     this.fontSize = 15,
     this.fontFamily,
     this.autoSetState = false,
@@ -69,19 +69,10 @@ class NumberPagination extends StatefulWidget {
 
 class _NumberPaginationState extends State<NumberPagination> {
   late int currentPage;
-  late final Widget iconToFirst;
-  late final Widget iconPrevious;
-  late final Widget iconNext;
-  late final Widget iconToLast;
 
   @override
   void initState() {
-    this.currentPage = widget.pageInit;
-    this.iconToFirst = widget.iconToFirst ?? Icon(Icons.first_page);
-    this.iconPrevious = widget.iconPrevious ?? Icon(Icons.keyboard_arrow_left);
-    this.iconNext = widget.iconNext ?? Icon(Icons.keyboard_arrow_right);
-    this.iconToLast = widget.iconToLast ?? Icon(Icons.last_page);
-
+    currentPage = widget.pageInit;
     super.initState();
   }
 
