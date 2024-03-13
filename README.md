@@ -3,6 +3,10 @@
 # number_pagination
 Implementing Flutter Number Pagination using a Popular Web Approach
 
+This package is very simple. Without depending on other packages, the code is less than 200 lines. Its usage is also simple and easy.
+
+[See document](https://pub.dev/documentation/number_pagination/latest/number_pagination/NumberPagination-class.html)
+
 ### Options
  - Function(int) onNumberChange (required)
  - int pageTotal (required)
