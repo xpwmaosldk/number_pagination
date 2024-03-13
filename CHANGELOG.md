@@ -1,3 +1,6 @@
+## 1.0.12
+- Remove unnecessary initialization in initState
+
 ## 1.0.1
 - Add 'autoSetState' option.
 
