@@ -15,10 +15,10 @@ This package is very simple. Without depending on other packages, the code is le
  - Color colorPrimary (default black)
  - Color colorSub (default white)
  - Widget? controlButton
- - Widget? iconToFirst
- - Widget? iconPrevious
- - Widget? iconNext
- - Widget? iconToLast
+ - Widget iconToFirst
+ - Widget iconPrevious
+ - Widget iconNext
+ - Widget iconToLast
  - double fontSize (default 15)
  - String? fontFamily
  - bool autoSetState (default false)

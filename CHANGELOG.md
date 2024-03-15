@@ -1,3 +1,6 @@
+## 1.0.3 
+- Improve code readability
+
 ## 1.0.2
 - Remove unnecessary initialization in initState
 

@@ -43,16 +43,16 @@ class NumberPagination extends StatefulWidget {
   final Widget? controlButton;
 
   ///The icon of button to first.
-  final Widget? iconToFirst;
+  final Widget iconToFirst;
 
   ///The icon of button to previous.
-  final Widget? iconPrevious;
+  final Widget iconPrevious;
 
   ///The icon of button to next.
-  final Widget? iconNext;
+  final Widget iconNext;
 
   ///The icon of button to last.
-  final Widget? iconToLast;
+  final Widget iconToLast;
 
   ///The size of numbers. default is 15.
   final double fontSize;
@@ -68,6 +68,8 @@ class NumberPagination extends StatefulWidget {
 }
 
 class _NumberPaginationState extends State<NumberPagination> {
+  static const double buttonSpacing = 4.0;
+  static const double groupSpacing = 10.0;
   late int currentPage;
 
   @override
@@ -76,8 +78,8 @@ class _NumberPaginationState extends State<NumberPagination> {
     super.initState();
   }
 
-  void _changePage(int page) {
-    int newPage = page.clamp(1, widget.pageTotal);
+  void _changePage(int targetPage) {
+    int newPage = targetPage.clamp(1, widget.pageTotal);
 
     if (currentPage != newPage) {
       currentPage = newPage;
@@ -166,26 +168,26 @@ class _NumberPaginationState extends State<NumberPagination> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildControlButton(
-            widget.iconToFirst ?? Icon(Icons.first_page),
+            widget.iconToFirst,
             currentPage == 1 ? null : () => _changePage(1),
           ),
-          SizedBox(width: 4),
+          SizedBox(width: buttonSpacing),
           _buildControlButton(
-            widget.iconPrevious ?? Icon(Icons.keyboard_arrow_left),
+            widget.iconPrevious,
             currentPage == 1 ? null : () => _changePage(currentPage - 1),
           ),
-          SizedBox(width: 10),
+          SizedBox(width: groupSpacing),
           _buildPageNumbers(rangeStart, rangeEnd),
-          SizedBox(width: 10),
+          SizedBox(width: groupSpacing),
           _buildControlButton(
-            widget.iconNext ?? Icon(Icons.keyboard_arrow_right),
+            widget.iconNext,
             currentPage == widget.pageTotal
                 ? null
                 : () => _changePage(currentPage + 1),
           ),
-          SizedBox(width: 4),
+          SizedBox(width: buttonSpacing),
           _buildControlButton(
-            widget.iconToLast ?? Icon(Icons.last_page),
+            widget.iconToLast,
             currentPage == widget.pageTotal
                 ? null
                 : () => _changePage(widget.pageTotal),

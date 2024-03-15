@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
               selectedPageNumber = pageNumber;
             });
           },
+          threshold: 15,
           pageTotal: 100,
           pageInit: selectedPageNumber, // picked number when init page
           colorPrimary: Colors.red,
