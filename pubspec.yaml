@@ -1,7 +1,7 @@
 name: number_pagination
 description: Pagination using numbers, similar to the classic web-style pagination. Explore pages by numbers, not infinite scrolling!
 
-version: 1.0.2+1
+version: 1.0.3
 homepage: https://github.com/xpwmaosldk/number_pagination
 
 screenshots:
@@ -11,7 +11,7 @@ screenshots:
     path: screenshots/screenshots2.webp
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
   # flutter: ">=1.17.0"
 
 dependencies:
