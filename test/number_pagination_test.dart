@@ -46,6 +46,14 @@ void main() {
     await tester.pump();
     expect(currentPage, 3);
 
+    await tester.tap(find.text('11'));
+    await tester.tap(find.byIcon(Icons.keyboard_arrow_right));
+    await tester.pump();
+    // Check if the text '12' is displayed on the screen.
+    expect(find.text('12'), findsOneWidget);
+    // Check if the text '13' is displayed on the screen.
+    expect(find.text('13'), findsOneWidget);
+
     // Tap the last page button and verify that the last page is correctly displayed
     await tester.tap(find.byIcon(Icons.last_page));
     await tester.pump();
