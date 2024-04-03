@@ -18,7 +18,8 @@ class NumberPagination extends StatefulWidget {
     this.iconToLast = const Icon(Icons.last_page),
     this.fontSize = 15,
     this.fontFamily,
-    this.autoSetState = false,
+    this.buttonElevation = 5,
+    this.buttonRadius = 10,
   });
 
   ///Trigger when page changed
@@ -60,8 +61,11 @@ class NumberPagination extends StatefulWidget {
   ///The fontFamily of numbers.
   final String? fontFamily;
 
-  ///Make sure setState is called automatically. default is false.
-  final bool autoSetState;
+  ///The elevation of the buttons.
+  final double buttonElevation;
+
+  ///The Radius of the buttons.
+  final double buttonRadius;
 
   @override
   _NumberPaginationState createState() => _NumberPaginationState();
@@ -82,9 +86,10 @@ class _NumberPaginationState extends State<NumberPagination> {
     int newPage = targetPage.clamp(1, widget.pageTotal);
 
     if (currentPage != newPage) {
-      currentPage = newPage;
-      widget.onPageChanged(currentPage);
-      if (widget.autoSetState) setState(() {});
+      setState(() {
+        currentPage = newPage;
+        widget.onPageChanged(currentPage);
+      });
     }
   }
 
@@ -98,26 +103,25 @@ class _NumberPaginationState extends State<NumberPagination> {
               ? widget.threshold
               : widget.pageTotal % widget.threshold,
           (index) => Flexible(
-            child: InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: () => _changePage(index + 1 + rangeStart),
-              child: Container(
-                margin: const EdgeInsets.all(4),
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                decoration: BoxDecoration(
-                  color: (currentPage - 1) % widget.threshold == index
+            child: Padding(
+              padding: const EdgeInsets.all(1.5),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: widget.buttonElevation,
+                  surfaceTintColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(widget.buttonRadius),
+                  ),
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size(48, 48),
+                  foregroundColor: (currentPage - 1) % widget.threshold == index
+                      ? widget.colorSub
+                      : widget.colorPrimary,
+                  backgroundColor: (currentPage - 1) % widget.threshold == index
                       ? widget.colorPrimary
                       : widget.colorSub,
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 1.0),
-                      blurRadius: 6.0,
-                    ),
-                  ],
                 ),
+                onPressed: () => _changePage(index + 1 + rangeStart),
                 child: Text(
                   '${index + 1 + rangeStart}',
                   style: TextStyle(
@@ -136,22 +140,24 @@ class _NumberPaginationState extends State<NumberPagination> {
     );
   }
 
-  Widget _buildControlButton(Widget icon, VoidCallback? onTap) {
-    return widget.controlButton ??
-        AbsorbPointer(
-          absorbing: onTap == null,
-          child: TextButton(
-            style: ButtonStyle(
-              elevation: MaterialStateProperty.all<double>(5.0),
-              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
-              minimumSize: MaterialStateProperty.all(Size(48, 48)),
-              foregroundColor: MaterialStateProperty.all(widget.colorPrimary),
-              backgroundColor: MaterialStateProperty.all(widget.colorSub),
-            ),
-            onPressed: onTap,
-            child: icon,
-          ),
-        );
+  Widget _buildControlButton(Widget icon, bool enabled, VoidCallback? onTap) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        elevation: widget.buttonElevation,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(widget.buttonRadius),
+        ),
+        surfaceTintColor: Colors.transparent,
+        padding: EdgeInsets.zero,
+        minimumSize: Size(48, 48),
+        foregroundColor: enabled ? widget.colorPrimary : Colors.grey,
+        backgroundColor: widget.colorSub,
+        disabledForegroundColor: widget.colorPrimary,
+        disabledBackgroundColor: widget.colorSub,
+      ),
+      onPressed: enabled ? onTap : null,
+      child: icon,
+    );
   }
 
   @override
@@ -169,28 +175,28 @@ class _NumberPaginationState extends State<NumberPagination> {
         children: [
           _buildControlButton(
             widget.iconToFirst,
-            currentPage == 1 ? null : () => _changePage(1),
+            currentPage != 1,
+            () => _changePage(1),
           ),
           SizedBox(width: buttonSpacing),
           _buildControlButton(
             widget.iconPrevious,
-            currentPage == 1 ? null : () => _changePage(currentPage - 1),
+            currentPage != 1,
+            () => _changePage(currentPage - 1),
           ),
           SizedBox(width: groupSpacing),
           _buildPageNumbers(rangeStart, rangeEnd),
           SizedBox(width: groupSpacing),
           _buildControlButton(
             widget.iconNext,
-            currentPage == widget.pageTotal
-                ? null
-                : () => _changePage(currentPage + 1),
+            currentPage != widget.pageTotal,
+            () => _changePage(currentPage + 1),
           ),
           SizedBox(width: buttonSpacing),
           _buildControlButton(
             widget.iconToLast,
-            currentPage == widget.pageTotal
-                ? null
-                : () => _changePage(widget.pageTotal),
+            currentPage != widget.pageTotal,
+            () => _changePage(widget.pageTotal),
           ),
         ],
       ),

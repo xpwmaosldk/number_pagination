@@ -21,7 +21,8 @@ This package is very simple. Without depending on other packages, the code is le
  - Widget iconToLast
  - double fontSize (default 15)
  - String? fontFamily
- - bool autoSetState (default false)
+ - double? buttonElevation (default 5)
+ - double? buttonRadius (default 10)
 
 # Note
 The number increments in the versions (+numbers) are updates unrelated to functionality (mostly related to pub.dev or documents).

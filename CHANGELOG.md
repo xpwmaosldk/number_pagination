@@ -1,33 +1,38 @@
+## 1.0.4
+- Remove autoSetState.
+- Add new property: buttonElevation, buttonRadius.
+- Improve the widgets used in the package.
+
 ## 1.0.3 
-- Improve code readability
+- Improve code readability.
 
 ## 1.0.2
-- Remove unnecessary initialization in initState
+- Remove unnecessary initialization in initState.
 
 ## 1.0.1
 - Add 'autoSetState' option.
 
 ## 1.0.0
-- Fix the RenderFlex overflowed error on small screens
-- Performance improvements
-- Improve code readability
-- Add simple unit tests
+- Fix the RenderFlex overflowed error on small screens.
+- Performance improvements.
+- Improve code readability.
+- Add simple unit tests.
 
 ## 0.0.3+2
-- fix dart format
+- fix dart format.
 
 ## 0.0.3+1
-- update readme
+- update readme.
 
 ## 0.0.3+0
-- Add more API comment
-- Add fontFamily
-- Add fontSize
+- Add more API comment.
+- Add fontFamily.
+- Add fontSize.
 - Change onNumberChanged -> onPageChanged
 
 ## 0.0.2+0
-- Change options name
-- More support user custom
+- Change options name.
+- More support user custom.
 
 ### Options
  - Function(int) onNumberChange
@@ -43,7 +48,7 @@
  - Widget? iconToLast
 
 ## 0.0.1+1
-Add some info
+Add some info.
 
 ## 0.0.1
 Initial release.
