@@ -1,3 +1,6 @@
+## 1.0.5
+- Add new property: buttonSpacing, groupSpacing.
+  
 ## 1.0.4
 - Remove autoSetState.
 - Add new property: buttonElevation, buttonRadius.

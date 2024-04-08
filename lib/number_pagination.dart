@@ -20,6 +20,8 @@ class NumberPagination extends StatefulWidget {
     this.fontFamily,
     this.buttonElevation = 5,
     this.buttonRadius = 10,
+    this.buttonSpacing = 4.0,
+    this.groupSpacing = 10.0,
   });
 
   ///Trigger when page changed
@@ -67,13 +69,17 @@ class NumberPagination extends StatefulWidget {
   ///The Radius of the buttons.
   final double buttonRadius;
 
+  // Spacing between buttons, default is 4.0
+  final double buttonSpacing;
+
+  // Spacing between button groups, default is 10.0
+  final double groupSpacing;
+
   @override
   _NumberPaginationState createState() => _NumberPaginationState();
 }
 
 class _NumberPaginationState extends State<NumberPagination> {
-  static const double buttonSpacing = 4.0;
-  static const double groupSpacing = 10.0;
   late int currentPage;
 
   @override
@@ -140,7 +146,7 @@ class _NumberPaginationState extends State<NumberPagination> {
     );
   }
 
-  Widget _buildControlButton(Widget icon, bool enabled, VoidCallback? onTap) {
+  Widget _buildControlButton(Widget icon, bool enabled, VoidCallback onTap) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: widget.buttonElevation,
@@ -178,21 +184,21 @@ class _NumberPaginationState extends State<NumberPagination> {
             currentPage != 1,
             () => _changePage(1),
           ),
-          SizedBox(width: buttonSpacing),
+          SizedBox(width: widget.buttonSpacing),
           _buildControlButton(
             widget.iconPrevious,
             currentPage != 1,
             () => _changePage(currentPage - 1),
           ),
-          SizedBox(width: groupSpacing),
+          SizedBox(width: widget.groupSpacing),
           _buildPageNumbers(rangeStart, rangeEnd),
-          SizedBox(width: groupSpacing),
+          SizedBox(width: widget.groupSpacing),
           _buildControlButton(
             widget.iconNext,
             currentPage != widget.pageTotal,
             () => _changePage(currentPage + 1),
           ),
-          SizedBox(width: buttonSpacing),
+          SizedBox(width: widget.buttonSpacing),
           _buildControlButton(
             widget.iconToLast,
             currentPage != widget.pageTotal,
