@@ -1,10 +1,14 @@
 library number_pagination;
 
 import 'package:flutter/material.dart';
+import 'package:number_pagination/number_button.dart';
 
-class NumberPagination extends StatefulWidget {
-  /// Creates a NumberPagination widget.
-  const NumberPagination({
+import 'control_button.dart';
+import 'page_number_provider.dart';
+
+class NumberPagination extends StatelessWidget {
+  /// Creates a NumberPagination
+  NumberPagination({
     required this.onPageChanged,
     required this.pageTotal,
     this.threshold = 10,
@@ -22,7 +26,9 @@ class NumberPagination extends StatefulWidget {
     this.buttonRadius = 10,
     this.buttonSpacing = 4.0,
     this.groupSpacing = 10.0,
-  });
+  }) {
+    pageNumberProvider = PageNumberProvider(this.pageInit);
+  }
 
   ///Trigger when page changed
   final Function(int) onPageChanged;
@@ -75,137 +81,132 @@ class NumberPagination extends StatefulWidget {
   // Spacing between button groups, default is 10.0
   final double groupSpacing;
 
-  @override
-  _NumberPaginationState createState() => _NumberPaginationState();
-}
-
-class _NumberPaginationState extends State<NumberPagination> {
-  late int currentPage;
-
-  @override
-  void initState() {
-    currentPage = widget.pageInit;
-    super.initState();
-  }
-
-  void _changePage(int targetPage) {
-    int newPage = targetPage.clamp(1, widget.pageTotal);
-
-    if (currentPage != newPage) {
-      setState(() {
-        currentPage = newPage;
-        widget.onPageChanged(currentPage);
-      });
-    }
-  }
-
-  Widget _buildPageNumbers(int rangeStart, int rangeEnd) {
-    return Flexible(
-      fit: FlexFit.loose,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(
-          rangeEnd <= widget.pageTotal
-              ? widget.threshold
-              : widget.pageTotal % widget.threshold,
-          (index) => Flexible(
-            child: Padding(
-              padding: const EdgeInsets.all(1.5),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: widget.buttonElevation,
-                  surfaceTintColor: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(widget.buttonRadius),
-                  ),
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size(48, 48),
-                  foregroundColor: (currentPage - 1) % widget.threshold == index
-                      ? widget.colorSub
-                      : widget.colorPrimary,
-                  backgroundColor: (currentPage - 1) % widget.threshold == index
-                      ? widget.colorPrimary
-                      : widget.colorSub,
-                ),
-                onPressed: () => _changePage(index + 1 + rangeStart),
-                child: Text(
-                  '${index + 1 + rangeStart}',
-                  style: TextStyle(
-                    fontSize: widget.fontSize,
-                    fontFamily: widget.fontFamily,
-                    color: (currentPage - 1) % widget.threshold == index
-                        ? widget.colorSub
-                        : widget.colorPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildControlButton(Widget icon, bool enabled, VoidCallback onTap) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: widget.buttonElevation,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.buttonRadius),
-        ),
-        surfaceTintColor: Colors.transparent,
-        padding: EdgeInsets.zero,
-        minimumSize: Size(48, 48),
-        foregroundColor: enabled ? widget.colorPrimary : Colors.grey,
-        backgroundColor: widget.colorSub,
-        disabledForegroundColor: widget.colorPrimary,
-        disabledBackgroundColor: widget.colorSub,
-      ),
-      onPressed: enabled ? onTap : null,
-      child: icon,
-    );
-  }
+  late final PageNumberProvider pageNumberProvider;
 
   @override
   Widget build(BuildContext context) {
-    final rangeStart = currentPage % widget.threshold == 0
-        ? currentPage - widget.threshold
-        : (currentPage ~/ widget.threshold) * widget.threshold;
-
-    final rangeEnd = rangeStart + widget.threshold;
-
+    debugPrint('_NumberPagination build');
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildControlButton(
-            widget.iconToFirst,
-            currentPage != 1,
-            () => _changePage(1),
+          ListenableBuilder(
+            listenable: pageNumberProvider,
+            builder: (context, child) {
+              var currentPageNumber = pageNumberProvider.currentPageNumber;
+              return currentPageNumber == 1 || child == null
+                  ? Row(
+                      children: [
+                        ControlButton(
+                          buttonElevation,
+                          buttonRadius,
+                          colorPrimary,
+                          colorSub,
+                          iconToFirst,
+                          currentPageNumber != 1,
+                          () => _changePage(1),
+                        ),
+                        SizedBox(width: buttonSpacing),
+                        ControlButton(
+                          buttonElevation,
+                          buttonRadius,
+                          colorPrimary,
+                          colorSub,
+                          iconPrevious,
+                          currentPageNumber != 1,
+                          () => _changePage(currentPageNumber - 1),
+                        ),
+                      ],
+                    )
+                  : child;
+            },
           ),
-          SizedBox(width: widget.buttonSpacing),
-          _buildControlButton(
-            widget.iconPrevious,
-            currentPage != 1,
-            () => _changePage(currentPage - 1),
-          ),
-          SizedBox(width: widget.groupSpacing),
-          _buildPageNumbers(rangeStart, rangeEnd),
-          SizedBox(width: widget.groupSpacing),
-          _buildControlButton(
-            widget.iconNext,
-            currentPage != widget.pageTotal,
-            () => _changePage(currentPage + 1),
-          ),
-          SizedBox(width: widget.buttonSpacing),
-          _buildControlButton(
-            widget.iconToLast,
-            currentPage != widget.pageTotal,
-            () => _changePage(widget.pageTotal),
+          SizedBox(width: groupSpacing),
+          ListenableBuilder(
+              listenable: pageNumberProvider,
+              builder: (context, child) {
+                var previuosPage = pageNumberProvider.previousPageNumber;
+                final previousRagneStart = previuosPage % threshold == 0
+                    ? previuosPage - threshold
+                    : (previuosPage ~/ threshold) * threshold;
+
+                var currentPage = pageNumberProvider.currentPageNumber;
+
+                final rangeStart = currentPage % threshold == 0
+                    ? currentPage - threshold
+                    : (currentPage ~/ threshold) * threshold;
+
+                final rangeEnd = rangeStart + threshold;
+
+                debugPrint('$rangeStart : $previousRagneStart');
+
+                return rangeStart != previousRagneStart || child == null
+                    ? Flexible(
+                        fit: FlexFit.loose,
+                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+                          for (var i = rangeStart; i < rangeEnd; i++)
+                            NumberButton(
+                              i + 1,
+                              buttonElevation,
+                              buttonRadius,
+                              colorPrimary,
+                              colorSub,
+                              fontSize,
+                              fontFamily ?? '',
+                              pageNumberProvider,
+                              (number) {
+                                pageNumberProvider.currentPageNumber = number;
+                              },
+                            )
+                        ]),
+                      )
+                    : child;
+              }),
+          SizedBox(width: groupSpacing),
+          ListenableBuilder(
+            listenable: pageNumberProvider,
+            builder: (context, child) {
+              var currentPageNumber = pageNumberProvider.currentPageNumber;
+              return currentPageNumber == 1 || child == null
+                  ? Row(
+                      children: [
+                        ControlButton(
+                          buttonElevation,
+                          buttonRadius,
+                          colorPrimary,
+                          colorSub,
+                          iconNext,
+                          currentPageNumber != pageTotal,
+                          () => _changePage(currentPageNumber + 1),
+                        ),
+                        SizedBox(width: buttonSpacing),
+                        ControlButton(
+                          buttonElevation,
+                          buttonRadius,
+                          colorPrimary,
+                          colorSub,
+                          iconToLast,
+                          currentPageNumber != pageTotal,
+                          () => _changePage(pageTotal),
+                        ),
+                      ],
+                    )
+                  : child;
+            },
           ),
         ],
       ),
     );
+  }
+
+  void _changePage(int targetPage) {
+    int newPage = targetPage.clamp(1, pageTotal);
+    int currentPage = pageNumberProvider.currentPageNumber;
+
+    if (currentPage != newPage) {
+      pageNumberProvider.currentPageNumber = newPage;
+      onPageChanged(currentPage);
+    }
   }
 }
