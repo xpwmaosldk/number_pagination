@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'number_pagination.dart';
 import 'page_number_provider.dart';
 
 class NumberButton extends StatefulWidget {
@@ -11,7 +12,7 @@ class NumberButton extends StatefulWidget {
     this.colorSub,
     this.fontSize,
     this.fontFamily,
-    this.selectedNumberProvider,
+    this.pageService,
     this.onSelect,
   );
 
@@ -22,8 +23,8 @@ class NumberButton extends StatefulWidget {
   final Color colorSub;
   final double fontSize;
   final String fontFamily;
-  final PageNumberProvider selectedNumberProvider;
   final Function(int) onSelect;
+  final NumberPageService pageService;
 
   @override
   State<NumberButton> createState() => _NumberButtonState();
@@ -34,13 +35,11 @@ class _NumberButtonState extends State<NumberButton> {
   late Function() listener;
   @override
   void initState() {
-    selected = widget.number == widget.selectedNumberProvider.currentPageNumber;
+    selected = widget.number == widget.pageService.currentPage;
 
     listener = () {
-      bool newSelected =
-          widget.number == widget.selectedNumberProvider.currentPageNumber;
-      bool prevSelected =
-          widget.number == widget.selectedNumberProvider.previousPageNumber;
+      bool newSelected = widget.number == widget.pageService.currentPage;
+      bool prevSelected = widget.number == widget.pageService.previousPage;
 
       if (newSelected != prevSelected) {
         debugPrint('${widget.number} update');
@@ -50,7 +49,7 @@ class _NumberButtonState extends State<NumberButton> {
       }
     };
 
-    widget.selectedNumberProvider.addListener(listener);
+    widget.pageService.addListener(listener);
 
     debugPrint('${widget.number} init');
     super.initState();
@@ -58,7 +57,7 @@ class _NumberButtonState extends State<NumberButton> {
 
   @override
   void dispose() {
-    widget.selectedNumberProvider.removeListener(listener);
+    widget.pageService.removeListener(listener);
     super.dispose();
   }
 

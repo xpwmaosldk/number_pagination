@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class PageNumberProvider with ChangeNotifier {
-  int _currentPageNumber = -1;
-  int _previousPageNumber = -1;
+class NumberPageService with ChangeNotifier {
+  int _currentPage = -1;
+  int _previousPage = -1;
 
-  PageNumberProvider(this._currentPageNumber);
+  NumberPageService(this._currentPage);
 
-  set currentPageNumber(int n) {
-    _previousPageNumber = _currentPageNumber;
-    _currentPageNumber = n;
+  set currentPage(int n) {
+    _previousPage = _currentPage;
+    _currentPage = n;
     notifyListeners();
   }
 
-  int get currentPageNumber => _currentPageNumber;
-  int get previousPageNumber => _previousPageNumber;
+  int get currentPage => _currentPage;
+  int get previousPage => _previousPage;
 }

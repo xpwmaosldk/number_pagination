@@ -26,9 +26,7 @@ class NumberPagination extends StatelessWidget {
     this.buttonRadius = 10,
     this.buttonSpacing = 4.0,
     this.groupSpacing = 10.0,
-  }) {
-    pageNumberProvider = PageNumberProvider(this.pageInit);
-  }
+  });
 
   ///Trigger when page changed
   final Function(int) onPageChanged;
@@ -81,132 +79,123 @@ class NumberPagination extends StatelessWidget {
   // Spacing between button groups, default is 10.0
   final double groupSpacing;
 
-  late final PageNumberProvider pageNumberProvider;
-
   @override
   Widget build(BuildContext context) {
     debugPrint('_NumberPagination build');
+    var pageService = NumberPageService(pageInit);
+
+    var currentPage = pageService.currentPage;
+
+    final rangeStart = currentPage % threshold == 0
+        ? currentPage - threshold
+        : (currentPage ~/ threshold) * threshold;
+
+    final rangeEnd = rangeStart + threshold;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ListenableBuilder(
-            listenable: pageNumberProvider,
-            builder: (context, child) {
-              var currentPageNumber = pageNumberProvider.currentPageNumber;
-              return currentPageNumber == 1 || child == null
-                  ? Row(
-                      children: [
-                        ControlButton(
-                          buttonElevation,
-                          buttonRadius,
-                          colorPrimary,
-                          colorSub,
-                          iconToFirst,
-                          currentPageNumber != 1,
-                          () => _changePage(1),
-                        ),
-                        SizedBox(width: buttonSpacing),
-                        ControlButton(
-                          buttonElevation,
-                          buttonRadius,
-                          colorPrimary,
-                          colorSub,
-                          iconPrevious,
-                          currentPageNumber != 1,
-                          () => _changePage(currentPageNumber - 1),
-                        ),
-                      ],
-                    )
-                  : child;
-            },
-          ),
-          SizedBox(width: groupSpacing),
-          ListenableBuilder(
-              listenable: pageNumberProvider,
-              builder: (context, child) {
-                var previuosPage = pageNumberProvider.previousPageNumber;
-                final previousRagneStart = previuosPage % threshold == 0
-                    ? previuosPage - threshold
-                    : (previuosPage ~/ threshold) * threshold;
-
-                var currentPage = pageNumberProvider.currentPageNumber;
-
-                final rangeStart = currentPage % threshold == 0
-                    ? currentPage - threshold
-                    : (currentPage ~/ threshold) * threshold;
-
-                final rangeEnd = rangeStart + threshold;
-
-                debugPrint('$rangeStart : $previousRagneStart');
-
-                return rangeStart != previousRagneStart || child == null
-                    ? Flexible(
-                        fit: FlexFit.loose,
-                        child: Row(mainAxisSize: MainAxisSize.min, children: [
-                          for (var i = rangeStart; i < rangeEnd; i++)
-                            NumberButton(
-                              i + 1,
-                              buttonElevation,
-                              buttonRadius,
-                              colorPrimary,
-                              colorSub,
-                              fontSize,
-                              fontFamily ?? '',
-                              pageNumberProvider,
-                              (number) {
-                                pageNumberProvider.currentPageNumber = number;
-                              },
-                            )
-                        ]),
-                      )
-                    : child;
-              }),
-          SizedBox(width: groupSpacing),
-          ListenableBuilder(
-            listenable: pageNumberProvider,
-            builder: (context, child) {
-              var currentPageNumber = pageNumberProvider.currentPageNumber;
-              return currentPageNumber == 1 || child == null
-                  ? Row(
-                      children: [
-                        ControlButton(
-                          buttonElevation,
-                          buttonRadius,
-                          colorPrimary,
-                          colorSub,
-                          iconNext,
-                          currentPageNumber != pageTotal,
-                          () => _changePage(currentPageNumber + 1),
-                        ),
-                        SizedBox(width: buttonSpacing),
-                        ControlButton(
-                          buttonElevation,
-                          buttonRadius,
-                          colorPrimary,
-                          colorSub,
-                          iconToLast,
-                          currentPageNumber != pageTotal,
-                          () => _changePage(pageTotal),
-                        ),
-                      ],
-                    )
-                  : child;
-            },
-          ),
-        ],
+      child: NumberPageContainer(
+        pageService: pageService,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                ControlButton(
+                  buttonElevation,
+                  buttonRadius,
+                  colorPrimary,
+                  colorSub,
+                  iconToFirst,
+                  pageService.currentPage != 1,
+                  () => _changePage(pageService, 1),
+                ),
+                SizedBox(width: buttonSpacing),
+                ControlButton(
+                  buttonElevation,
+                  buttonRadius,
+                  colorPrimary,
+                  colorSub,
+                  iconPrevious,
+                  pageService.currentPage != 1,
+                  () => _changePage(pageService, pageService.currentPage - 1),
+                ),
+              ],
+            ),
+            SizedBox(width: groupSpacing),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                for (var i = rangeStart; i < rangeEnd; i++)
+                  NumberButton(
+                    i + 1,
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    fontSize,
+                    fontFamily ?? '',
+                    pageService,
+                    (number) {
+                      pageService.currentPage = number;
+                    },
+                  )
+              ]),
+            ),
+            SizedBox(width: groupSpacing),
+            Row(
+              children: [
+                ControlButton(
+                  buttonElevation,
+                  buttonRadius,
+                  colorPrimary,
+                  colorSub,
+                  iconNext,
+                  pageService.currentPage != pageTotal,
+                  () => _changePage(pageService, pageService.currentPage + 1),
+                ),
+                SizedBox(width: buttonSpacing),
+                ControlButton(
+                  buttonElevation,
+                  buttonRadius,
+                  colorPrimary,
+                  colorSub,
+                  iconToLast,
+                  pageService.currentPage != pageTotal,
+                  () => _changePage(pageService, pageTotal),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  void _changePage(int targetPage) {
+  void _changePage(NumberPageService pageService, targetPage) {
     int newPage = targetPage.clamp(1, pageTotal);
-    int currentPage = pageNumberProvider.currentPageNumber;
+    int currentPage = pageService.currentPage;
 
     if (currentPage != newPage) {
-      pageNumberProvider.currentPageNumber = newPage;
+      pageService.currentPage = newPage;
       onPageChanged(currentPage);
     }
+  }
+}
+
+class NumberPageContainer extends InheritedWidget {
+  final NumberPageService pageService;
+
+  const NumberPageContainer({required this.pageService, required super.child});
+
+  @override
+  bool updateShouldNotify(covariant NumberPageContainer oldWidget) {
+    return oldWidget.pageService != pageService;
+  }
+
+  static NumberPageService of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<NumberPageContainer>()!
+        .pageService;
   }
 }
