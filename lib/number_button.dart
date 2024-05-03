@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'number_pagination.dart';
 import 'page_number_provider.dart';
 
 class NumberButton extends StatefulWidget {
@@ -31,34 +29,10 @@ class NumberButton extends StatefulWidget {
 }
 
 class _NumberButtonState extends State<NumberButton> {
-  late bool selected;
-  late Function() listener;
   @override
   void initState() {
-    selected = widget.number == widget.pageService.currentPage;
-
-    listener = () {
-      bool newSelected = widget.number == widget.pageService.currentPage;
-      bool prevSelected = widget.number == widget.pageService.previousPage;
-
-      if (newSelected != prevSelected) {
-        debugPrint('${widget.number} update');
-        setState(() {
-          selected = newSelected;
-        });
-      }
-    };
-
-    widget.pageService.addListener(listener);
-
     debugPrint('${widget.number} init');
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    widget.pageService.removeListener(listener);
-    super.dispose();
   }
 
   @override
@@ -68,7 +42,9 @@ class _NumberButtonState extends State<NumberButton> {
         padding: const EdgeInsets.all(1.5),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            shadowColor: selected ? widget.colorPrimary : null,
+            shadowColor: widget.number == widget.pageService.currentPage
+                ? widget.colorPrimary
+                : null,
             elevation: widget.buttonElevation,
             surfaceTintColor: Colors.transparent,
             shape: RoundedRectangleBorder(
@@ -76,23 +52,24 @@ class _NumberButtonState extends State<NumberButton> {
             ),
             padding: EdgeInsets.zero,
             minimumSize: Size(48, 48),
-            foregroundColor: selected ? widget.colorSub : widget.colorPrimary,
-            backgroundColor: selected ? widget.colorPrimary : widget.colorSub,
+            foregroundColor: widget.number == widget.pageService.currentPage
+                ? widget.colorSub
+                : widget.colorPrimary,
+            backgroundColor: widget.number == widget.pageService.currentPage
+                ? widget.colorPrimary
+                : widget.colorSub,
           ),
           onPressed: () {
-            if (!selected) {
-              setState(() {
-                selected = true;
-              });
-              widget.onSelect(widget.number);
-            }
+            widget.onSelect(widget.number);
           },
           child: Text(
             '${widget.number}',
             style: TextStyle(
               fontSize: widget.fontSize,
               fontFamily: widget.fontFamily,
-              color: selected ? widget.colorSub : widget.colorPrimary,
+              color: widget.number == widget.pageService.currentPage
+                  ? widget.colorSub
+                  : widget.colorPrimary,
             ),
           ),
         ),

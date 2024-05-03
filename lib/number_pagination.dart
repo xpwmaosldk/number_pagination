@@ -90,7 +90,8 @@ class NumberPagination extends StatelessWidget {
         ? currentPage - threshold
         : (currentPage ~/ threshold) * threshold;
 
-    final rangeEnd = rangeStart + threshold;
+    final rangeEnd =
+        rangeStart + threshold > pageTotal ? pageTotal : rangeStart + threshold;
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -137,7 +138,7 @@ class NumberPagination extends StatelessWidget {
                     fontFamily ?? '',
                     pageService,
                     (number) {
-                      pageService.currentPage = number;
+                      _changePage(pageService, number);
                     },
                   )
               ]),
@@ -178,7 +179,7 @@ class NumberPagination extends StatelessWidget {
 
     if (currentPage != newPage) {
       pageService.currentPage = newPage;
-      onPageChanged(currentPage);
+      onPageChanged(newPage);
     }
   }
 }
