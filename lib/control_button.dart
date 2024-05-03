@@ -17,7 +17,7 @@ class ControlButton extends StatelessWidget {
   final Color colorSub;
   final Widget icon;
   final bool enabled;
-  final Function() onTap;
+  final Function(BuildContext) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ControlButton extends StatelessWidget {
         disabledForegroundColor: colorPrimary,
         disabledBackgroundColor: colorSub,
       ),
-      onPressed: enabled ? onTap : null,
+      onPressed: enabled ? () => onTap(context) : null,
       child: icon,
     );
   }

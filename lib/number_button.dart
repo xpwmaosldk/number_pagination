@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'page_number_provider.dart';
+import 'number_pagination.dart';
 
-class NumberButton extends StatefulWidget {
+class NumberButton extends StatelessWidget {
   const NumberButton(
     this.number,
     this.buttonElevation,
@@ -10,7 +10,6 @@ class NumberButton extends StatefulWidget {
     this.colorSub,
     this.fontSize,
     this.fontFamily,
-    this.pageService,
     this.onSelect,
   );
 
@@ -21,19 +20,7 @@ class NumberButton extends StatefulWidget {
   final Color colorSub;
   final double fontSize;
   final String fontFamily;
-  final Function(int) onSelect;
-  final NumberPageService pageService;
-
-  @override
-  State<NumberButton> createState() => _NumberButtonState();
-}
-
-class _NumberButtonState extends State<NumberButton> {
-  @override
-  void initState() {
-    debugPrint('${widget.number} init');
-    super.initState();
-  }
+  final Function(BuildContext, int) onSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -42,34 +29,36 @@ class _NumberButtonState extends State<NumberButton> {
         padding: const EdgeInsets.all(1.5),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            shadowColor: widget.number == widget.pageService.currentPage
-                ? widget.colorPrimary
+            shadowColor: number == NumberPageContainer.of(context).currentPage
+                ? colorPrimary
                 : null,
-            elevation: widget.buttonElevation,
+            elevation: buttonElevation,
             surfaceTintColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.buttonRadius),
+              borderRadius: BorderRadius.circular(buttonRadius),
             ),
             padding: EdgeInsets.zero,
             minimumSize: Size(48, 48),
-            foregroundColor: widget.number == widget.pageService.currentPage
-                ? widget.colorSub
-                : widget.colorPrimary,
-            backgroundColor: widget.number == widget.pageService.currentPage
-                ? widget.colorPrimary
-                : widget.colorSub,
+            foregroundColor:
+                number == NumberPageContainer.of(context).currentPage
+                    ? colorSub
+                    : colorPrimary,
+            backgroundColor:
+                number == NumberPageContainer.of(context).currentPage
+                    ? colorPrimary
+                    : colorSub,
           ),
           onPressed: () {
-            widget.onSelect(widget.number);
+            onSelect(context, number);
           },
           child: Text(
-            '${widget.number}',
+            '${number}',
             style: TextStyle(
-              fontSize: widget.fontSize,
-              fontFamily: widget.fontFamily,
-              color: widget.number == widget.pageService.currentPage
-                  ? widget.colorSub
-                  : widget.colorPrimary,
+              fontSize: fontSize,
+              fontFamily: fontFamily,
+              color: number == NumberPageContainer.of(context).currentPage
+                  ? colorSub
+                  : colorPrimary,
             ),
           ),
         ),

@@ -81,17 +81,7 @@ class NumberPagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('_NumberPagination build');
-    var pageService = NumberPageService(pageInit);
-
-    var currentPage = pageService.currentPage;
-
-    final rangeStart = currentPage % threshold == 0
-        ? currentPage - threshold
-        : (currentPage ~/ threshold) * threshold;
-
-    final rangeEnd =
-        rangeStart + threshold > pageTotal ? pageTotal : rangeStart + threshold;
+    final pageService = NumberPageService(pageInit);
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -100,72 +90,92 @@ class NumberPagination extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                ControlButton(
-                  buttonElevation,
-                  buttonRadius,
-                  colorPrimary,
-                  colorSub,
-                  iconToFirst,
-                  pageService.currentPage != 1,
-                  () => _changePage(pageService, 1),
-                ),
-                SizedBox(width: buttonSpacing),
-                ControlButton(
-                  buttonElevation,
-                  buttonRadius,
-                  colorPrimary,
-                  colorSub,
-                  iconPrevious,
-                  pageService.currentPage != 1,
-                  () => _changePage(pageService, pageService.currentPage - 1),
-                ),
-              ],
-            ),
-            SizedBox(width: groupSpacing),
-            Flexible(
-              fit: FlexFit.loose,
-              child: Row(mainAxisSize: MainAxisSize.min, children: [
-                for (var i = rangeStart; i < rangeEnd; i++)
-                  NumberButton(
-                    i + 1,
+            ListenableBuilder(
+              listenable: pageService,
+              builder: (_, __) => Row(
+                children: [
+                  ControlButton(
                     buttonElevation,
                     buttonRadius,
                     colorPrimary,
                     colorSub,
-                    fontSize,
-                    fontFamily ?? '',
-                    pageService,
-                    (number) {
-                      _changePage(pageService, number);
-                    },
-                  )
-              ]),
+                    iconToFirst,
+                    pageService.currentPage != 1,
+                    (c) => _changePage(c, 1),
+                  ),
+                  SizedBox(width: buttonSpacing),
+                  ControlButton(
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    iconPrevious,
+                    pageService.currentPage != 1,
+                    (c) => _changePage(c, pageService.currentPage - 1),
+                  ),
+                ],
+              ),
             ),
             SizedBox(width: groupSpacing),
-            Row(
-              children: [
-                ControlButton(
-                  buttonElevation,
-                  buttonRadius,
-                  colorPrimary,
-                  colorSub,
-                  iconNext,
-                  pageService.currentPage != pageTotal,
-                  () => _changePage(pageService, pageService.currentPage + 1),
-                ),
-                SizedBox(width: buttonSpacing),
-                ControlButton(
-                  buttonElevation,
-                  buttonRadius,
-                  colorPrimary,
-                  colorSub,
-                  iconToLast,
-                  pageService.currentPage != pageTotal,
-                  () => _changePage(pageService, pageTotal),
-                ),
-              ],
+            Flexible(
+              fit: FlexFit.loose,
+              child: ListenableBuilder(
+                listenable: pageService,
+                builder: (context, child) {
+                  final currentPage = pageService.currentPage;
+
+                  final rangeStart = currentPage % threshold == 0
+                      ? currentPage - threshold
+                      : (currentPage ~/ threshold) * threshold;
+
+                  final rangeEnd = rangeStart + threshold > pageTotal
+                      ? pageTotal
+                      : rangeStart + threshold;
+
+                  return Row(mainAxisSize: MainAxisSize.min, children: [
+                    for (var i = rangeStart; i < rangeEnd; i++)
+                      NumberButton(
+                        i + 1,
+                        buttonElevation,
+                        buttonRadius,
+                        colorPrimary,
+                        colorSub,
+                        fontSize,
+                        fontFamily ?? '',
+                        (c, number) {
+                          _changePage(c, number);
+                        },
+                      )
+                  ]);
+                },
+              ),
+            ),
+            SizedBox(width: groupSpacing),
+            ListenableBuilder(
+              listenable: pageService,
+              builder: (_, __) => Row(
+                children: [
+                  ControlButton(
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    iconNext,
+                    pageService.currentPage != pageTotal,
+                    (c) => _changePage(c, pageService.currentPage + 1),
+                  ),
+                  SizedBox(width: buttonSpacing),
+                  ControlButton(
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    iconToLast,
+                    pageService.currentPage != pageTotal,
+                    (c) => _changePage(c, pageTotal),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -173,12 +183,11 @@ class NumberPagination extends StatelessWidget {
     );
   }
 
-  void _changePage(NumberPageService pageService, targetPage) {
+  void _changePage(BuildContext context, targetPage) {
     int newPage = targetPage.clamp(1, pageTotal);
-    int currentPage = pageService.currentPage;
 
-    if (currentPage != newPage) {
-      pageService.currentPage = newPage;
+    if (NumberPageContainer.of(context).currentPage != newPage) {
+      NumberPageContainer.of(context).currentPage = newPage;
       onPageChanged(newPage);
     }
   }
