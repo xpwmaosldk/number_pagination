@@ -1,10 +1,14 @@
 library number_pagination;
 
 import 'package:flutter/material.dart';
+import 'package:number_pagination/number_button.dart';
 
-class NumberPagination extends StatefulWidget {
-  /// Creates a NumberPagination widget.
-  const NumberPagination({
+import 'control_button.dart';
+import 'page_number_provider.dart';
+
+class NumberPagination extends StatelessWidget {
+  /// Creates a NumberPagination
+  NumberPagination({
     required this.onPageChanged,
     required this.pageTotal,
     this.threshold = 10,
@@ -76,136 +80,132 @@ class NumberPagination extends StatefulWidget {
   final double groupSpacing;
 
   @override
-  _NumberPaginationState createState() => _NumberPaginationState();
-}
-
-class _NumberPaginationState extends State<NumberPagination> {
-  late int currentPage;
-
-  @override
-  void initState() {
-    currentPage = widget.pageInit;
-    super.initState();
-  }
-
-  void _changePage(int targetPage) {
-    int newPage = targetPage.clamp(1, widget.pageTotal);
-
-    if (currentPage != newPage) {
-      setState(() {
-        currentPage = newPage;
-        widget.onPageChanged(currentPage);
-      });
-    }
-  }
-
-  Widget _buildPageNumbers(int rangeStart, int rangeEnd) {
-    return Flexible(
-      fit: FlexFit.loose,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(
-          rangeEnd <= widget.pageTotal
-              ? widget.threshold
-              : widget.pageTotal % widget.threshold,
-          (index) => Flexible(
-            child: Padding(
-              padding: const EdgeInsets.all(1.5),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: widget.buttonElevation,
-                  surfaceTintColor: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(widget.buttonRadius),
-                  ),
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size(48, 48),
-                  foregroundColor: (currentPage - 1) % widget.threshold == index
-                      ? widget.colorSub
-                      : widget.colorPrimary,
-                  backgroundColor: (currentPage - 1) % widget.threshold == index
-                      ? widget.colorPrimary
-                      : widget.colorSub,
-                ),
-                onPressed: () => _changePage(index + 1 + rangeStart),
-                child: Text(
-                  '${index + 1 + rangeStart}',
-                  style: TextStyle(
-                    fontSize: widget.fontSize,
-                    fontFamily: widget.fontFamily,
-                    color: (currentPage - 1) % widget.threshold == index
-                        ? widget.colorSub
-                        : widget.colorPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildControlButton(Widget icon, bool enabled, VoidCallback onTap) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: widget.buttonElevation,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.buttonRadius),
-        ),
-        surfaceTintColor: Colors.transparent,
-        padding: EdgeInsets.zero,
-        minimumSize: Size(48, 48),
-        foregroundColor: enabled ? widget.colorPrimary : Colors.grey,
-        backgroundColor: widget.colorSub,
-        disabledForegroundColor: widget.colorPrimary,
-        disabledBackgroundColor: widget.colorSub,
-      ),
-      onPressed: enabled ? onTap : null,
-      child: icon,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final rangeStart = currentPage % widget.threshold == 0
-        ? currentPage - widget.threshold
-        : (currentPage ~/ widget.threshold) * widget.threshold;
-
-    final rangeEnd = rangeStart + widget.threshold;
+    final pageService = NumberPageService(pageInit);
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildControlButton(
-            widget.iconToFirst,
-            currentPage != 1,
-            () => _changePage(1),
-          ),
-          SizedBox(width: widget.buttonSpacing),
-          _buildControlButton(
-            widget.iconPrevious,
-            currentPage != 1,
-            () => _changePage(currentPage - 1),
-          ),
-          SizedBox(width: widget.groupSpacing),
-          _buildPageNumbers(rangeStart, rangeEnd),
-          SizedBox(width: widget.groupSpacing),
-          _buildControlButton(
-            widget.iconNext,
-            currentPage != widget.pageTotal,
-            () => _changePage(currentPage + 1),
-          ),
-          SizedBox(width: widget.buttonSpacing),
-          _buildControlButton(
-            widget.iconToLast,
-            currentPage != widget.pageTotal,
-            () => _changePage(widget.pageTotal),
-          ),
-        ],
+      child: NumberPageContainer(
+        pageService: pageService,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ListenableBuilder(
+              listenable: pageService,
+              builder: (_, __) => Row(
+                children: [
+                  ControlButton(
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    iconToFirst,
+                    pageService.currentPage != 1,
+                    (c) => _changePage(c, 1),
+                  ),
+                  SizedBox(width: buttonSpacing),
+                  ControlButton(
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    iconPrevious,
+                    pageService.currentPage != 1,
+                    (c) => _changePage(c, pageService.currentPage - 1),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: groupSpacing),
+            Flexible(
+              fit: FlexFit.loose,
+              child: ListenableBuilder(
+                listenable: pageService,
+                builder: (context, child) {
+                  final currentPage = pageService.currentPage;
+
+                  final rangeStart = currentPage % threshold == 0
+                      ? currentPage - threshold
+                      : (currentPage ~/ threshold) * threshold;
+
+                  final rangeEnd = rangeStart + threshold > pageTotal
+                      ? pageTotal
+                      : rangeStart + threshold;
+
+                  return Row(mainAxisSize: MainAxisSize.min, children: [
+                    for (var i = rangeStart; i < rangeEnd; i++)
+                      NumberButton(
+                        i + 1,
+                        buttonElevation,
+                        buttonRadius,
+                        colorPrimary,
+                        colorSub,
+                        fontSize,
+                        fontFamily ?? '',
+                        (c, number) {
+                          _changePage(c, number);
+                        },
+                      )
+                  ]);
+                },
+              ),
+            ),
+            SizedBox(width: groupSpacing),
+            ListenableBuilder(
+              listenable: pageService,
+              builder: (_, __) => Row(
+                children: [
+                  ControlButton(
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    iconNext,
+                    pageService.currentPage != pageTotal,
+                    (c) => _changePage(c, pageService.currentPage + 1),
+                  ),
+                  SizedBox(width: buttonSpacing),
+                  ControlButton(
+                    buttonElevation,
+                    buttonRadius,
+                    colorPrimary,
+                    colorSub,
+                    iconToLast,
+                    pageService.currentPage != pageTotal,
+                    (c) => _changePage(c, pageTotal),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void _changePage(BuildContext context, targetPage) {
+    int newPage = targetPage.clamp(1, pageTotal);
+
+    if (NumberPageContainer.of(context).currentPage != newPage) {
+      NumberPageContainer.of(context).currentPage = newPage;
+      onPageChanged(newPage);
+    }
+  }
+}
+
+class NumberPageContainer extends InheritedWidget {
+  final NumberPageService pageService;
+
+  const NumberPageContainer({required this.pageService, required super.child});
+
+  @override
+  bool updateShouldNotify(covariant NumberPageContainer oldWidget) {
+    return oldWidget.pageService != pageService;
+  }
+
+  static NumberPageService of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<NumberPageContainer>()!
+        .pageService;
   }
 }

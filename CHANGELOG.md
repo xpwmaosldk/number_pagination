@@ -1,3 +1,7 @@
+## 1.0.6
+- Update minimum supported SDK version (>=3.0.0)
+- Improve code (partial update applied)
+
 ## 1.0.5
 - Add new property: buttonSpacing, groupSpacing.
   

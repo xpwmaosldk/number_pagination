@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         NumberPagination(
           onPageChanged: (int pageNumber) {
-            //do somthing for selected page
+            //To optimize further, use a package that supports partial updates instead of setState (e.g. riverpod)
             setState(() {
               selectedPageNumber = pageNumber;
             });

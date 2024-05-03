@@ -2,9 +2,11 @@
 ![preview](https://github.com/xpwmaosldk/number_pagination/assets/13146337/aed48430-96de-43ec-8864-dc75cae9a197)
 
 # number_pagination ![flutter test](https://github.com/xpwmaosldk/number_pagination/actions/workflows/flutter_test.yml/badge.svg)
-Implementing Flutter Number Pagination using a Popular Web Approach
+Implementing Flutter Number Pagination using a Popular Web Approach.
 
-This package is very simple. Without depending on other packages, the code is less than 200 lines. Its usage is also simple and easy.
+This package is very simple. Without depending on other packages.
+
+Its usage is also simple and easy.
 
 [See document](https://pub.dev/documentation/number_pagination/latest/number_pagination/NumberPagination-class.html)
 
