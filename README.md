@@ -28,7 +28,6 @@ Its usage is also simple and easy.
  - double buttonRadius (default 10)
  - double buttonSpacing (default 4)
  - double groupSpacing (default 10)
- - 
 
 # Note
 The number increments in the versions (+numbers) are updates unrelated to functionality (mostly related to pub.dev or documents).
