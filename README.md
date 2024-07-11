@@ -3,6 +3,7 @@
 
 # number_pagination [![flutter](https://img.shields.io/badge/Flutter-027DFD)](https://flutter.dev/) ![flutter test](https://github.com/xpwmaosldk/number_pagination/actions/workflows/flutter_test.yml/badge.svg) [![package](https://img.shields.io/badge/pub.dev-number__pagenation-0553B1)](https://pub.dev/packages/number_pagination) 
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q8BWZF)
 
 Implementing Flutter Number Pagination using a Popular Web Approach.
 
