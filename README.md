@@ -33,7 +33,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  number_pagination: ^latest version
+  number_pagination: ^1.1.0
 ```
 
 | Property                   | Type          | Default                          | Description                                                 |
