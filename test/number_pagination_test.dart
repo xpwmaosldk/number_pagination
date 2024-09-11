@@ -14,9 +14,9 @@ void main() {
         onPageChanged: (page) {
           currentPage = page;
         },
-        pageTotal: 100,
-        threshold: 11,
         currentPage: currentPage,
+        totalPages: 100,
+        visiblePagesCount: 11,
       );
     });
 

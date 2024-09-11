@@ -5,75 +5,92 @@ import 'src/number_button.dart';
 import 'src/number_page_container.dart';
 import 'src/page_number_provider.dart';
 
+/// A customizable pagination widget that displays page numbers and navigation controls.
+///
+/// This widget allows users to navigate through pages using numbered buttons
+/// and control buttons (first, previous, next, last). It's highly customizable
+/// in terms of appearance and behavior.
 class NumberPagination extends StatelessWidget {
-  /// Creates a NumberPagination
+  /// Creates a NumberPagination widget.
   const NumberPagination({
     super.key,
     required this.onPageChanged,
-    required this.pageTotal,
-    this.threshold = 10,
+    required this.totalPages,
+    this.visiblePagesCount = 10,
     this.currentPage = 1,
-    this.colorPrimary = Colors.black,
-    this.colorSub = Colors.white,
-    this.iconToFirst = const Icon(Icons.first_page),
-    this.iconPrevious = const Icon(Icons.keyboard_arrow_left),
-    this.iconNext = const Icon(Icons.keyboard_arrow_right),
-    this.iconToLast = const Icon(Icons.last_page),
+    this.activeColor = Colors.black,
+    this.inactiveColor = Colors.white,
     this.fontSize = 15,
     this.fontFamily,
     this.buttonElevation = 5,
     this.buttonRadius = 10,
-    this.buttonSpacing = 4.0,
-    this.groupSpacing = 10.0,
+    this.firstPageIcon = const Icon(Icons.first_page),
+    this.previousPageIcon = const Icon(Icons.keyboard_arrow_left),
+    this.nextPageIcon = const Icon(Icons.keyboard_arrow_right),
+    this.lastPageIcon = const Icon(Icons.last_page),
+    this.navigationButtonSpacing = 4.0,
+    this.sectionSpacing = 10.0,
+    this.controlButtonSize = const Size(48, 48),
+    this.numberButtonSize = const Size(48, 48),
+    this.betweenNumberButtonSpacing = 3,
   });
 
-  ///Trigger when page changed
+  /// Callback function triggered when the page changes.
   final Function(int) onPageChanged;
 
-  ///End of numbers.
-  final int pageTotal;
+  /// Total number of pages available.
+  final int totalPages;
 
-  ///Page number to be displayed, default is 1.
+  /// Currently displayed page number.
   final int currentPage;
 
-  ///Numbers to show at once. default is 10.
-  final int threshold;
+  /// Number of page buttons to display at once.
+  final int visiblePagesCount;
 
-  ///Color of numbers. default is black.
-  final Color colorPrimary;
+  /// Color of the active page number and icons.
+  final Color activeColor;
 
-  ///Color of background. default is white.
-  final Color colorSub;
+  /// Background color for the inactive buttons.
+  final Color inactiveColor;
 
-  ///The icon of button to first.
-  final Widget iconToFirst;
-
-  ///The icon of button to previous.
-  final Widget iconPrevious;
-
-  ///The icon of button to next.
-  final Widget iconNext;
-
-  ///The icon of button to last.
-  final Widget iconToLast;
-
-  ///The size of numbers. default is 15.
+  /// Font size for the page numbers.
   final double fontSize;
 
-  ///The fontFamily of numbers.
+  /// Font family for the page numbers.
   final String? fontFamily;
 
-  ///The elevation of the buttons.
+  /// Elevation of the buttons.
   final double buttonElevation;
 
-  ///The Radius of the buttons.
+  /// Radius of the buttons.
   final double buttonRadius;
 
-  // Spacing between buttons, default is 4.0
-  final double buttonSpacing;
+  /// Icon for the "first page" button.
+  final Widget firstPageIcon;
 
-  // Spacing between button groups, default is 10.0
-  final double groupSpacing;
+  /// Icon for the "previous page" button.
+  final Widget previousPageIcon;
+
+  /// Icon for the "next page" button.
+  final Widget nextPageIcon;
+
+  /// Icon for the "last page" button.
+  final Widget lastPageIcon;
+
+  /// Spacing between navigation buttons.
+  final double navigationButtonSpacing;
+
+  /// Spacing between navigation buttons and page number buttons.
+  final double sectionSpacing;
+
+  /// Size of the control buttons.
+  final Size controlButtonSize;
+
+  /// Size of the number buttons.
+  final Size numberButtonSize;
+
+  /// Spacing between individual number buttons.
+  final double betweenNumberButtonSpacing;
 
   @override
   Widget build(BuildContext context) {
@@ -86,100 +103,109 @@ class NumberPagination extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ListenableBuilder(
-              listenable: pageService,
-              builder: (_, __) => Row(
-                children: [
-                  ControlButton(
-                    buttonElevation,
-                    buttonRadius,
-                    colorPrimary,
-                    colorSub,
-                    iconToFirst,
-                    pageService.currentPage != 1,
-                    (c) => _changePage(c, 1),
-                  ),
-                  SizedBox(width: buttonSpacing),
-                  ControlButton(
-                    buttonElevation,
-                    buttonRadius,
-                    colorPrimary,
-                    colorSub,
-                    iconPrevious,
-                    pageService.currentPage != 1,
-                    (c) => _changePage(c, pageService.currentPage - 1),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: groupSpacing),
-            Flexible(
-              child: ListenableBuilder(
-                listenable: pageService,
-                builder: (context, child) {
-                  final currentPage = pageService.currentPage;
-
-                  final rangeStart = currentPage % threshold == 0
-                      ? currentPage - threshold
-                      : (currentPage ~/ threshold) * threshold;
-
-                  final rangeEnd = rangeStart + threshold > pageTotal
-                      ? pageTotal
-                      : rangeStart + threshold;
-
-                  return Row(mainAxisSize: MainAxisSize.min, children: [
-                    for (var i = rangeStart; i < rangeEnd; i++)
-                      NumberButton(
-                        i + 1,
-                        buttonElevation,
-                        buttonRadius,
-                        colorPrimary,
-                        colorSub,
-                        fontSize,
-                        fontFamily ?? '',
-                        (c, number) {
-                          _changePage(c, number);
-                        },
-                      )
-                  ]);
-                },
-              ),
-            ),
-            SizedBox(width: groupSpacing),
-            ListenableBuilder(
-              listenable: pageService,
-              builder: (_, __) => Row(
-                children: [
-                  ControlButton(
-                    buttonElevation,
-                    buttonRadius,
-                    colorPrimary,
-                    colorSub,
-                    iconNext,
-                    pageService.currentPage != pageTotal,
-                    (c) => _changePage(c, pageService.currentPage + 1),
-                  ),
-                  SizedBox(width: buttonSpacing),
-                  ControlButton(
-                    buttonElevation,
-                    buttonRadius,
-                    colorPrimary,
-                    colorSub,
-                    iconToLast,
-                    pageService.currentPage != pageTotal,
-                    (c) => _changePage(c, pageTotal),
-                  ),
-                ],
-              ),
-            ),
+            _buildNavigationButtons(pageService),
+            SizedBox(width: sectionSpacing),
+            _buildPageNumbers(pageService),
+            SizedBox(width: sectionSpacing),
+            _buildNavigationButtons(pageService, isForward: true),
           ],
         ),
       ),
     );
   }
 
+  /// Builds the navigation buttons (first/previous or next/last).
+  Widget _buildNavigationButtons(NumberPageService pageService,
+      {bool isForward = false}) {
+    return ListenableBuilder(
+      listenable: pageService,
+      builder: (_, __) => Row(
+        children: [
+          ControlButton(
+            buttonElevation,
+            buttonRadius,
+            activeColor,
+            inactiveColor,
+            isForward ? nextPageIcon : firstPageIcon,
+            isForward
+                ? pageService.currentPage != totalPages
+                : pageService.currentPage != 1,
+            (c) => _changePage(c, isForward ? pageService.currentPage + 1 : 1),
+            controlButtonSize,
+          ),
+          SizedBox(width: navigationButtonSpacing),
+          ControlButton(
+            buttonElevation,
+            buttonRadius,
+            activeColor,
+            inactiveColor,
+            isForward ? lastPageIcon : previousPageIcon,
+            isForward
+                ? pageService.currentPage != totalPages
+                : pageService.currentPage != 1,
+            (c) => _changePage(
+                c, isForward ? totalPages : pageService.currentPage - 1),
+            controlButtonSize,
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Builds the page number buttons.
+  Widget _buildPageNumbers(NumberPageService pageService) {
+    return Flexible(
+      child: ListenableBuilder(
+        listenable: pageService,
+        builder: (context, child) {
+          final currentPage = pageService.currentPage;
+          final rangeStart = _calculateRangeStart(currentPage);
+          final rangeEnd = _calculateRangeEnd(rangeStart);
+
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = rangeStart; i < rangeEnd; i++) ...[
+                NumberButton(
+                  i + 1,
+                  buttonElevation,
+                  buttonRadius,
+                  activeColor,
+                  inactiveColor,
+                  fontSize,
+                  fontFamily ?? '',
+                  (c, number) => _changePage(c, number),
+                  numberButtonSize,
+                ),
+                if (i != rangeEnd - 1)
+                  SizedBox(
+                    width: betweenNumberButtonSpacing,
+                  ),
+              ],
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  /// Calculates the start of the range for page numbers to display.
+  int _calculateRangeStart(int currentPage) {
+    return currentPage % visiblePagesCount == 0
+        ? currentPage - visiblePagesCount
+        : (currentPage ~/ visiblePagesCount) * visiblePagesCount;
+  }
+
+  /// Calculates the end of the range for page numbers to display.
+  int _calculateRangeEnd(int rangeStart) {
+    return rangeStart + visiblePagesCount > totalPages
+        ? totalPages
+        : rangeStart + visiblePagesCount;
+  }
+
+  /// Changes the current page and notifies the listener.
   void _changePage(BuildContext context, int targetPage) {
-    final int newPage = targetPage.clamp(1, pageTotal);
+    final int newPage = targetPage.clamp(1, totalPages);
 
     if (NumberPageContainer.of(context).currentPage != newPage) {
       NumberPageContainer.of(context).currentPage = newPage;

@@ -50,11 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
               selectedPageNumber = pageNumber;
             });
           },
-          threshold: 15,
-          pageTotal: 100,
-          currentPage: selectedPageNumber, // picked number when init page
-          colorPrimary: Colors.red,
-          colorSub: Colors.yellow,
+          visiblePagesCount: 15,
+          totalPages: 100,
+          currentPage: selectedPageNumber,
+          activeColor: Colors.red,
+          inactiveColor: Colors.yellow,
         ),
       ],
     );

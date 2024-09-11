@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
 class ControlButton extends StatelessWidget {
-  const ControlButton(this.buttonElevation, this.buttonRadius,
-      this.colorPrimary, this.colorSub, this.icon, this.enabled, this.onTap,
-      {super.key});
+  const ControlButton(
+    this.buttonElevation,
+    this.buttonRadius,
+    this.colorPrimary,
+    this.colorSub,
+    this.icon,
+    this.enabled,
+    this.onTap,
+    this.minimumSize, {
+    super.key,
+  });
 
   final double buttonElevation;
   final double buttonRadius;
@@ -12,6 +20,7 @@ class ControlButton extends StatelessWidget {
   final Widget icon;
   final bool enabled;
   final Function(BuildContext) onTap;
+  final Size minimumSize;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +32,7 @@ class ControlButton extends StatelessWidget {
         ),
         surfaceTintColor: Colors.transparent,
         padding: EdgeInsets.zero,
-        minimumSize: const Size(48, 48),
+        minimumSize: minimumSize,
         foregroundColor: enabled ? colorPrimary : Colors.grey,
         backgroundColor: colorSub,
         disabledForegroundColor: colorPrimary,

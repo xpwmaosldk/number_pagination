@@ -1,5 +1,8 @@
-## 1.0.10
-- Remove unused variables.(controlButton)
+## 1.1.0
+- Remove unused variables.
+- Change the variables name.
+- Add more customize options.
+- Improve document.
 
 ## 1.0.9
 - BREAKING CHANGE: Changed the variable name from pageInit to currentPage.
