@@ -44,7 +44,7 @@ The NumberPagination widget offers a wide range of customization options to tail
 | Option              | Type  | Description                               | Default  |
 | ------------------- | ----- | ----------------------------------------- | -------- |
 | `visiblePagesCount` | `int` | Number of page numbers to display at once | 10       |
-| `currentPage`       | `int` | Currently displayed page number           | 1        |
+| `currentPage`       | `int` | Currently displayed page number           | Required |
 | `totalPages`        | `int` | Total number of pages available           | Required |
 
 ## Text Styling
