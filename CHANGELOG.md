@@ -1,3 +1,7 @@
+## 1.1.1
+- Improve document.
+- Add more customize options.
+
 ## 1.1.0
 - Remove unused variables.
 - Change the variables name.

@@ -4,8 +4,6 @@ class ControlButton extends StatelessWidget {
   const ControlButton(
     this.buttonElevation,
     this.buttonRadius,
-    this.colorPrimary,
-    this.colorSub,
     this.icon,
     this.enabled,
     this.onTap,
@@ -15,8 +13,6 @@ class ControlButton extends StatelessWidget {
 
   final double buttonElevation;
   final double buttonRadius;
-  final Color colorPrimary;
-  final Color colorSub;
   final Widget icon;
   final bool enabled;
   final Function(BuildContext) onTap;
@@ -33,10 +29,6 @@ class ControlButton extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         padding: EdgeInsets.zero,
         minimumSize: minimumSize,
-        foregroundColor: enabled ? colorPrimary : Colors.grey,
-        backgroundColor: colorSub,
-        disabledForegroundColor: colorPrimary,
-        disabledBackgroundColor: colorSub,
       ),
       onPressed: enabled ? () => onTap(context) : null,
       child: icon,

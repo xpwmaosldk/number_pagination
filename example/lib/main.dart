@@ -53,8 +53,10 @@ class _MyHomePageState extends State<MyHomePage> {
           visiblePagesCount: 15,
           totalPages: 100,
           currentPage: selectedPageNumber,
-          activeColor: Colors.red,
-          inactiveColor: Colors.yellow,
+          selectedButtonColor: Colors.amber,
+          selectedTextColor: Colors.black,
+          unSelectedButtonColor: Colors.grey,
+          unSelectedTextColor: Colors.blueGrey,
         ),
       ],
     );

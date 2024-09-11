@@ -18,12 +18,10 @@ class NumberPagination extends StatelessWidget {
     required this.totalPages,
     this.visiblePagesCount = 10,
     this.currentPage = 1,
-    this.activeColor = Colors.black,
-    this.inactiveColor = Colors.white,
     this.fontSize = 15,
     this.fontFamily,
     this.buttonElevation = 5,
-    this.buttonRadius = 10,
+    this.buttonRadius = 0,
     this.firstPageIcon = const Icon(Icons.first_page),
     this.previousPageIcon = const Icon(Icons.keyboard_arrow_left),
     this.nextPageIcon = const Icon(Icons.keyboard_arrow_right),
@@ -33,6 +31,10 @@ class NumberPagination extends StatelessWidget {
     this.controlButtonSize = const Size(48, 48),
     this.numberButtonSize = const Size(48, 48),
     this.betweenNumberButtonSpacing = 3,
+    this.selectedTextColor = Colors.white,
+    this.unSelectedTextColor = Colors.black,
+    this.selectedButtonColor = Colors.black,
+    this.unSelectedButtonColor = Colors.white,
   });
 
   /// Callback function triggered when the page changes.
@@ -46,12 +48,6 @@ class NumberPagination extends StatelessWidget {
 
   /// Number of page buttons to display at once.
   final int visiblePagesCount;
-
-  /// Color of the active page number and icons.
-  final Color activeColor;
-
-  /// Background color for the inactive buttons.
-  final Color inactiveColor;
 
   /// Font size for the page numbers.
   final double fontSize;
@@ -92,6 +88,18 @@ class NumberPagination extends StatelessWidget {
   /// Spacing between individual number buttons.
   final double betweenNumberButtonSpacing;
 
+  /// The color of the text for the selected page button.
+  final Color selectedTextColor;
+
+  /// The color of the text for unselected page buttons.
+  final Color unSelectedTextColor;
+
+  /// The background color of the selected page button.
+  final Color selectedButtonColor;
+
+  /// The background color of unselected page buttons.
+  final Color unSelectedButtonColor;
+
   @override
   Widget build(BuildContext context) {
     final pageService = NumberPageService(currentPage);
@@ -124,8 +132,6 @@ class NumberPagination extends StatelessWidget {
           ControlButton(
             buttonElevation,
             buttonRadius,
-            activeColor,
-            inactiveColor,
             isForward ? nextPageIcon : firstPageIcon,
             isForward
                 ? pageService.currentPage != totalPages
@@ -137,8 +143,6 @@ class NumberPagination extends StatelessWidget {
           ControlButton(
             buttonElevation,
             buttonRadius,
-            activeColor,
-            inactiveColor,
             isForward ? lastPageIcon : previousPageIcon,
             isForward
                 ? pageService.currentPage != totalPages
@@ -170,12 +174,14 @@ class NumberPagination extends StatelessWidget {
                   i + 1,
                   buttonElevation,
                   buttonRadius,
-                  activeColor,
-                  inactiveColor,
                   fontSize,
                   fontFamily ?? '',
                   (c, number) => _changePage(c, number),
                   numberButtonSize,
+                  selectedTextColor,
+                  unSelectedTextColor,
+                  selectedButtonColor,
+                  unSelectedButtonColor,
                 ),
                 if (i != rangeEnd - 1)
                   SizedBox(
