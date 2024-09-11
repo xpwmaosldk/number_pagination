@@ -12,7 +12,7 @@ class NumberPagination extends StatelessWidget {
     required this.onPageChanged,
     required this.pageTotal,
     this.threshold = 10,
-    this.pageInit = 1,
+    this.currentPage = 1,
     this.colorPrimary = Colors.black,
     this.colorSub = Colors.white,
     this.controlButton,
@@ -34,8 +34,8 @@ class NumberPagination extends StatelessWidget {
   ///End of numbers.
   final int pageTotal;
 
-  ///Page number to be displayed first, default is 1.
-  final int pageInit;
+  ///Page number to be displayed, default is 1.
+  final int currentPage;
 
   ///Numbers to show at once. default is 10.
   final int threshold;
@@ -81,7 +81,7 @@ class NumberPagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageService = NumberPageService(pageInit);
+    final pageService = NumberPageService(currentPage);
 
     return Padding(
       padding: const EdgeInsets.all(10.0),

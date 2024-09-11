@@ -16,7 +16,7 @@ void main() {
         },
         pageTotal: 100,
         threshold: 11,
-        pageInit: currentPage,
+        currentPage: currentPage,
       );
     });
 

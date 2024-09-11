@@ -1,3 +1,6 @@
+## 1.0.9
+- BREAKING CHANGE: Changed the variable name from pageInit to currentPage.
+
 ## 1.0.8
 - Separating the public/private code.
 

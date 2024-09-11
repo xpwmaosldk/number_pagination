@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           threshold: 15,
           pageTotal: 100,
-          pageInit: selectedPageNumber, // picked number when init page
+          currentPage: selectedPageNumber, // picked number when init page
           colorPrimary: Colors.red,
           colorSub: Colors.yellow,
         ),
