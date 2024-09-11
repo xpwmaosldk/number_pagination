@@ -31,11 +31,12 @@ class NumberPagination extends StatelessWidget {
     this.controlButtonSize = const Size(48, 48),
     this.numberButtonSize = const Size(48, 48),
     this.betweenNumberButtonSpacing = 3,
-    this.selectedTextColor = Colors.white,
-    this.unSelectedTextColor = Colors.black,
+    this.selectedNumberColor = Colors.white,
+    this.unSelectedNumberColor = Colors.black,
     this.selectedButtonColor = Colors.black,
     this.unSelectedButtonColor = Colors.white,
     this.controlButtonColor = Colors.white,
+    this.selectedNumberFontWeight = FontWeight.w600,
   });
 
   /// Callback function triggered when the page changes.
@@ -90,10 +91,10 @@ class NumberPagination extends StatelessWidget {
   final double betweenNumberButtonSpacing;
 
   /// The color of the text for the selected page button.
-  final Color selectedTextColor;
+  final Color selectedNumberColor;
 
   /// The color of the text for unselected page buttons.
-  final Color unSelectedTextColor;
+  final Color unSelectedNumberColor;
 
   /// The background color of the selected page button.
   final Color selectedButtonColor;
@@ -103,6 +104,9 @@ class NumberPagination extends StatelessWidget {
 
   /// The background color of control buttons.
   final Color controlButtonColor;
+
+  /// The font weight of the selected page number.
+  final FontWeight selectedNumberFontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -174,18 +178,18 @@ class NumberPagination extends StatelessWidget {
             children: [
               for (var i = rangeStart; i < rangeEnd; i++) ...[
                 NumberButton(
-                  i + 1,
-                  buttonElevation,
-                  buttonRadius,
-                  fontSize,
-                  fontFamily ?? '',
-                  (c, number) => _changePage(c, number),
-                  numberButtonSize,
-                  selectedTextColor,
-                  unSelectedTextColor,
-                  selectedButtonColor,
-                  unSelectedButtonColor,
-                ),
+                    i + 1,
+                    buttonElevation,
+                    buttonRadius,
+                    fontSize,
+                    fontFamily ?? '',
+                    (c, number) => _changePage(c, number),
+                    numberButtonSize,
+                    selectedNumberColor,
+                    unSelectedNumberColor,
+                    selectedButtonColor,
+                    unSelectedButtonColor,
+                    selectedNumberFontWeight),
                 if (i != rangeEnd - 1)
                   SizedBox(
                     width: betweenNumberButtonSpacing,

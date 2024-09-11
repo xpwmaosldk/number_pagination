@@ -13,7 +13,8 @@ class NumberButton extends StatelessWidget {
     this.selectedTextColor,
     this.unSelectedTextColor,
     this.selectedButtonColor,
-    this.unSelectedButtonColor, {
+    this.unSelectedButtonColor,
+    this.selectedNumberFontWeight, {
     super.key,
   });
 
@@ -28,6 +29,7 @@ class NumberButton extends StatelessWidget {
   final Color unSelectedTextColor;
   final Color selectedButtonColor;
   final Color unSelectedButtonColor;
+  final FontWeight selectedNumberFontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class NumberButton extends StatelessWidget {
               fontSize: fontSize,
               fontFamily: fontFamily,
               color: selected ? selectedTextColor : unSelectedTextColor,
-              fontWeight: selected ? FontWeight.w600 : null,
+              fontWeight: selected ? selectedNumberFontWeight : null,
             ),
           ),
         ),

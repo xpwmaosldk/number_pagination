@@ -1,3 +1,6 @@
+## 1.1.4
+- Add selectedNumberFontWeight.
+
 ## 1.1.3
 - Remove overlayColors.
 - Fix the intermittent flashing effect of the color when clicking the first and last buttons.

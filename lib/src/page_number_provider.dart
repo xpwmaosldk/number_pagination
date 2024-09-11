@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class NumberPageService with ChangeNotifier {
-
   NumberPageService(this._currentPage);
   int _currentPage = -1;
   int _previousPage = -1;
