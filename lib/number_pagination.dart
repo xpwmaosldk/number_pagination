@@ -15,7 +15,6 @@ class NumberPagination extends StatelessWidget {
     this.currentPage = 1,
     this.colorPrimary = Colors.black,
     this.colorSub = Colors.white,
-    this.controlButton,
     this.iconToFirst = const Icon(Icons.first_page),
     this.iconPrevious = const Icon(Icons.keyboard_arrow_left),
     this.iconNext = const Icon(Icons.keyboard_arrow_right),
@@ -45,9 +44,6 @@ class NumberPagination extends StatelessWidget {
 
   ///Color of background. default is white.
   final Color colorSub;
-
-  ///to First, to Previous, to next, to Last Button UI.
-  final Widget? controlButton;
 
   ///The icon of button to first.
   final Widget iconToFirst;

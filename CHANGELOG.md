@@ -1,3 +1,6 @@
+## 1.0.10
+- Remove unused variables.(controlButton)
+
 ## 1.0.9
 - BREAKING CHANGE: Changed the variable name from pageInit to currentPage.
 
