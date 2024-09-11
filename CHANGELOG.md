@@ -1,3 +1,6 @@
+## 1.1.2
+- Improve document.
+
 ## 1.1.1
 - Improve document.
 - Add more customize options.

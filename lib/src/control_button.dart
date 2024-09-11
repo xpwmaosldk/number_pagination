@@ -7,7 +7,8 @@ class ControlButton extends StatelessWidget {
     this.icon,
     this.enabled,
     this.onTap,
-    this.minimumSize, {
+    this.fixedSize,
+    this.backgroundColor, {
     super.key,
   });
 
@@ -16,7 +17,8 @@ class ControlButton extends StatelessWidget {
   final Widget icon;
   final bool enabled;
   final Function(BuildContext) onTap;
-  final Size minimumSize;
+  final Size fixedSize;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,10 @@ class ControlButton extends StatelessWidget {
         ),
         surfaceTintColor: Colors.transparent,
         padding: EdgeInsets.zero,
-        minimumSize: minimumSize,
+        fixedSize: fixedSize,
+        minimumSize: fixedSize,
+        disabledBackgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
       ),
       onPressed: enabled ? () => onTap(context) : null,
       child: icon,

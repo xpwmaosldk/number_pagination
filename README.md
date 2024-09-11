@@ -71,6 +71,7 @@ The NumberPagination widget offers a wide range of customization options to tail
 | `unSelectedTextColor`   | `Color` | Text color for unselected page buttons       | Colors.black |
 | `selectedButtonColor`   | `Color` | Background color of the selected page button | Colors.black |
 | `unSelectedButtonColor` | `Color` | Background color of unselected page buttons  | Colors.white |
+| `controlButtonColor`    | `Color` | Background color of control buttons          | Colors.white |
 
 ## Icons
 

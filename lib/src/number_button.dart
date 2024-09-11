@@ -9,7 +9,7 @@ class NumberButton extends StatelessWidget {
     this.fontSize,
     this.fontFamily,
     this.onSelect,
-    this.minimumSize,
+    this.fixedSize,
     this.selectedTextColor,
     this.unSelectedTextColor,
     this.selectedButtonColor,
@@ -23,7 +23,7 @@ class NumberButton extends StatelessWidget {
   final double fontSize;
   final String fontFamily;
   final Function(BuildContext, int) onSelect;
-  final Size minimumSize;
+  final Size fixedSize;
   final Color selectedTextColor;
   final Color unSelectedTextColor;
   final Color selectedButtonColor;
@@ -43,7 +43,8 @@ class NumberButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(buttonRadius),
             ),
             padding: EdgeInsets.zero,
-            minimumSize: minimumSize,
+            fixedSize: fixedSize,
+            minimumSize: fixedSize,
             backgroundColor:
                 selected ? selectedButtonColor : unSelectedButtonColor,
           ),

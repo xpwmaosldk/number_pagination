@@ -35,6 +35,7 @@ class NumberPagination extends StatelessWidget {
     this.unSelectedTextColor = Colors.black,
     this.selectedButtonColor = Colors.black,
     this.unSelectedButtonColor = Colors.white,
+    this.controlButtonColor = Colors.white,
   });
 
   /// Callback function triggered when the page changes.
@@ -100,24 +101,24 @@ class NumberPagination extends StatelessWidget {
   /// The background color of unselected page buttons.
   final Color unSelectedButtonColor;
 
+  /// The background color of control buttons.
+  final Color controlButtonColor;
+
   @override
   Widget build(BuildContext context) {
     final pageService = NumberPageService(currentPage);
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: NumberPageContainer(
-        pageService: pageService,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildNavigationButtons(pageService),
-            SizedBox(width: sectionSpacing),
-            _buildPageNumbers(pageService),
-            SizedBox(width: sectionSpacing),
-            _buildNavigationButtons(pageService, isForward: true),
-          ],
-        ),
+    return NumberPageContainer(
+      pageService: pageService,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildNavigationButtons(pageService),
+          SizedBox(width: sectionSpacing),
+          _buildPageNumbers(pageService),
+          SizedBox(width: sectionSpacing),
+          _buildNavigationButtons(pageService, isForward: true),
+        ],
       ),
     );
   }
@@ -138,6 +139,7 @@ class NumberPagination extends StatelessWidget {
                 : pageService.currentPage != 1,
             (c) => _changePage(c, isForward ? pageService.currentPage + 1 : 1),
             controlButtonSize,
+            controlButtonColor,
           ),
           SizedBox(width: navigationButtonSpacing),
           ControlButton(
@@ -150,6 +152,7 @@ class NumberPagination extends StatelessWidget {
             (c) => _changePage(
                 c, isForward ? totalPages : pageService.currentPage - 1),
             controlButtonSize,
+            controlButtonColor,
           ),
         ],
       ),
