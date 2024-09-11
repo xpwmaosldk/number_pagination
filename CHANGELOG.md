@@ -1,3 +1,7 @@
+## 1.1.3
+- Remove overlayColors.
+- Fix the intermittent flashing effect of the color when clicking the first and last buttons.
+
 ## 1.1.2
 - Improve document.
 

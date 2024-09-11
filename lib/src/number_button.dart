@@ -45,6 +45,7 @@ class NumberButton extends StatelessWidget {
             padding: EdgeInsets.zero,
             fixedSize: fixedSize,
             minimumSize: fixedSize,
+            overlayColor: Colors.transparent,
             backgroundColor:
                 selected ? selectedButtonColor : unSelectedButtonColor,
           ),
@@ -57,6 +58,7 @@ class NumberButton extends StatelessWidget {
               fontSize: fontSize,
               fontFamily: fontFamily,
               color: selected ? selectedTextColor : unSelectedTextColor,
+              fontWeight: selected ? FontWeight.w600 : null,
             ),
           ),
         ),
