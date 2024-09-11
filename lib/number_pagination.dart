@@ -1,14 +1,14 @@
-library number_pagination;
-
 import 'package:flutter/material.dart';
-import 'package:number_pagination/number_button.dart';
 
-import 'control_button.dart';
-import 'page_number_provider.dart';
+import 'src/control_button.dart';
+import 'src/number_button.dart';
+import 'src/number_page_container.dart';
+import 'src/page_number_provider.dart';
 
 class NumberPagination extends StatelessWidget {
   /// Creates a NumberPagination
-  NumberPagination({
+  const NumberPagination({
+    super.key,
     required this.onPageChanged,
     required this.pageTotal,
     this.threshold = 10,
@@ -118,7 +118,6 @@ class NumberPagination extends StatelessWidget {
             ),
             SizedBox(width: groupSpacing),
             Flexible(
-              fit: FlexFit.loose,
               child: ListenableBuilder(
                 listenable: pageService,
                 builder: (context, child) {
@@ -183,29 +182,12 @@ class NumberPagination extends StatelessWidget {
     );
   }
 
-  void _changePage(BuildContext context, targetPage) {
-    int newPage = targetPage.clamp(1, pageTotal);
+  void _changePage(BuildContext context, int targetPage) {
+    final int newPage = targetPage.clamp(1, pageTotal);
 
     if (NumberPageContainer.of(context).currentPage != newPage) {
       NumberPageContainer.of(context).currentPage = newPage;
       onPageChanged(newPage);
     }
-  }
-}
-
-class NumberPageContainer extends InheritedWidget {
-  final NumberPageService pageService;
-
-  const NumberPageContainer({required this.pageService, required super.child});
-
-  @override
-  bool updateShouldNotify(covariant NumberPageContainer oldWidget) {
-    return oldWidget.pageService != pageService;
-  }
-
-  static NumberPageService of(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<NumberPageContainer>()!
-        .pageService;
   }
 }

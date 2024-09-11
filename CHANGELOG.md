@@ -1,5 +1,8 @@
+## 1.0.8
+- Separating the public/private code.
+
 ## 1.0.7
-- Add topics of pub.dev
+- Add topics of pub.dev.
 
 ## 1.0.6
 - Update minimum supported SDK version (>=3.0.0)

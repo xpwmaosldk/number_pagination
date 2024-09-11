@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ControlButton extends StatelessWidget {
-  const ControlButton(
-    this.buttonElevation,
-    this.buttonRadius,
-    this.colorPrimary,
-    this.colorSub,
-    this.icon,
-    this.enabled,
-    this.onTap,
-  );
+  const ControlButton(this.buttonElevation, this.buttonRadius,
+      this.colorPrimary, this.colorSub, this.icon, this.enabled, this.onTap,
+      {super.key});
 
   final double buttonElevation;
   final double buttonRadius;
@@ -29,7 +23,7 @@ class ControlButton extends StatelessWidget {
         ),
         surfaceTintColor: Colors.transparent,
         padding: EdgeInsets.zero,
-        minimumSize: Size(48, 48),
+        minimumSize: const Size(48, 48),
         foregroundColor: enabled ? colorPrimary : Colors.grey,
         backgroundColor: colorSub,
         disabledForegroundColor: colorPrimary,

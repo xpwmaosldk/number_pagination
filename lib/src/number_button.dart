@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'number_pagination.dart';
+import 'number_page_container.dart';
 
 class NumberButton extends StatelessWidget {
   const NumberButton(
-    this.number,
-    this.buttonElevation,
-    this.buttonRadius,
-    this.colorPrimary,
-    this.colorSub,
-    this.fontSize,
-    this.fontFamily,
-    this.onSelect,
-  );
+      this.number,
+      this.buttonElevation,
+      this.buttonRadius,
+      this.colorPrimary,
+      this.colorSub,
+      this.fontSize,
+      this.fontFamily,
+      this.onSelect,
+      {super.key});
 
   final int number;
   final double buttonElevation;
@@ -38,7 +38,7 @@ class NumberButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(buttonRadius),
             ),
             padding: EdgeInsets.zero,
-            minimumSize: Size(48, 48),
+            minimumSize: const Size(48, 48),
             foregroundColor:
                 number == NumberPageContainer.of(context).currentPage
                     ? colorSub
@@ -52,7 +52,7 @@ class NumberButton extends StatelessWidget {
             onSelect(context, number);
           },
           child: Text(
-            '${number}',
+            '$number',
             style: TextStyle(
               fontSize: fontSize,
               fontFamily: fontFamily,
