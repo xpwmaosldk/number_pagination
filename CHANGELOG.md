@@ -1,4 +1,4 @@
-## 1.1.4
+## 1.1.5
 - Fix backgroundColor.
 
 ## 1.1.4
