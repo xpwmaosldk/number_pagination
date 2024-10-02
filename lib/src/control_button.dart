@@ -34,7 +34,7 @@ class ControlButton extends StatelessWidget {
         minimumSize: fixedSize,
         overlayColor: Colors.transparent,
         disabledBackgroundColor: Colors.transparent,
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         animationDuration: Duration.zero,
       ),
       onPressed: enabled ? () => onTap(context) : null,

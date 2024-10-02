@@ -1,4 +1,7 @@
 ## 1.1.4
+- Fix backgroundColor.
+
+## 1.1.4
 - Add selectedNumberFontWeight.
 
 ## 1.1.3
