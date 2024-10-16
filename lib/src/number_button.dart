@@ -49,7 +49,7 @@ class NumberButton extends StatelessWidget {
               side: (buttonSelectedBorderColor != null || buttonUnSelectedBorderColor != null)
                   ? BorderSide(
                       color: selected
-                          ? buttonUnSelectedBorderColor ?? const Color(0xFF000000)
+                          ? buttonSelectedBorderColor ?? const Color(0xFF000000)
                           : buttonUnSelectedBorderColor ?? const Color(0xFF000000),
                     )
                   : BorderSide.none,
