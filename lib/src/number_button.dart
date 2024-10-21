@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'number_page_container.dart';
 
 class NumberButton extends StatelessWidget {
-  const NumberButton(
-    this.number,
-    this.buttonElevation,
-    this.buttonRadius,
-    this.fontSize,
-    this.fontFamily,
-    this.onSelect,
-    this.fixedSize,
-    this.selectedTextColor,
-    this.unSelectedTextColor,
-    this.selectedButtonColor,
-    this.unSelectedButtonColor,
-    this.selectedNumberFontWeight, {
+  const NumberButton({
+    required this.number,
+    required this.buttonElevation,
+    required this.buttonRadius,
+    required this.fontSize,
+    required this.fontFamily,
+    required this.onSelect,
+    required this.fixedSize,
+    required this.selectedTextColor,
+    required this.unSelectedTextColor,
+    required this.selectedButtonColor,
+    required this.unSelectedButtonColor,
+    required this.selectedNumberFontWeight,
+    this.buttonSelectedBorderColor,
+    this.buttonUnSelectedBorderColor,
     super.key,
   });
 
@@ -29,6 +31,8 @@ class NumberButton extends StatelessWidget {
   final Color unSelectedTextColor;
   final Color selectedButtonColor;
   final Color unSelectedButtonColor;
+  final Color? buttonSelectedBorderColor;
+  final Color? buttonUnSelectedBorderColor;
   final FontWeight selectedNumberFontWeight;
 
   @override
@@ -42,14 +46,20 @@ class NumberButton extends StatelessWidget {
             elevation: buttonElevation,
             surfaceTintColor: Colors.transparent,
             shape: RoundedRectangleBorder(
+              side: (buttonSelectedBorderColor != null || buttonUnSelectedBorderColor != null)
+                  ? BorderSide(
+                      color: selected
+                          ? buttonSelectedBorderColor ?? const Color(0xFF000000)
+                          : buttonUnSelectedBorderColor ?? const Color(0xFF000000),
+                    )
+                  : BorderSide.none,
               borderRadius: BorderRadius.circular(buttonRadius),
             ),
             padding: EdgeInsets.zero,
             fixedSize: fixedSize,
             minimumSize: fixedSize,
             overlayColor: Colors.transparent,
-            backgroundColor:
-                selected ? selectedButtonColor : unSelectedButtonColor,
+            backgroundColor: selected ? selectedButtonColor : unSelectedButtonColor,
           ),
           onPressed: () {
             onSelect(context, number);

@@ -37,6 +37,8 @@ class NumberPagination extends StatelessWidget {
     this.unSelectedButtonColor = Colors.white,
     this.controlButtonColor = Colors.white,
     this.selectedNumberFontWeight = FontWeight.w600,
+    this.buttonSelectedBorderColor,
+    this.buttonUnSelectedBorderColor,
   });
 
   /// Callback function triggered when the page changes.
@@ -99,6 +101,12 @@ class NumberPagination extends StatelessWidget {
   /// The background color of the selected page button.
   final Color selectedButtonColor;
 
+  /// The color of the selected page button border.
+  final Color? buttonSelectedBorderColor;
+
+  /// The color of the unselected page button border.
+  final Color? buttonUnSelectedBorderColor;
+
   /// The background color of unselected page buttons.
   final Color unSelectedButtonColor;
 
@@ -128,8 +136,7 @@ class NumberPagination extends StatelessWidget {
   }
 
   /// Builds the navigation buttons (first/previous or next/last).
-  Widget _buildNavigationButtons(NumberPageService pageService,
-      {bool isForward = false}) {
+  Widget _buildNavigationButtons(NumberPageService pageService, {bool isForward = false}) {
     return ListenableBuilder(
       listenable: pageService,
       builder: (_, __) => Row(
@@ -138,9 +145,7 @@ class NumberPagination extends StatelessWidget {
             buttonElevation,
             buttonRadius,
             isForward ? nextPageIcon : firstPageIcon,
-            isForward
-                ? pageService.currentPage != totalPages
-                : pageService.currentPage != 1,
+            isForward ? pageService.currentPage != totalPages : pageService.currentPage != 1,
             (c) => _changePage(c, isForward ? pageService.currentPage + 1 : 1),
             controlButtonSize,
             controlButtonColor,
@@ -150,11 +155,8 @@ class NumberPagination extends StatelessWidget {
             buttonElevation,
             buttonRadius,
             isForward ? lastPageIcon : previousPageIcon,
-            isForward
-                ? pageService.currentPage != totalPages
-                : pageService.currentPage != 1,
-            (c) => _changePage(
-                c, isForward ? totalPages : pageService.currentPage - 1),
+            isForward ? pageService.currentPage != totalPages : pageService.currentPage != 1,
+            (c) => _changePage(c, isForward ? totalPages : pageService.currentPage - 1),
             controlButtonSize,
             controlButtonColor,
           ),
@@ -178,18 +180,21 @@ class NumberPagination extends StatelessWidget {
             children: [
               for (var i = rangeStart; i < rangeEnd; i++) ...[
                 NumberButton(
-                    i + 1,
-                    buttonElevation,
-                    buttonRadius,
-                    fontSize,
-                    fontFamily ?? '',
-                    (c, number) => _changePage(c, number),
-                    numberButtonSize,
-                    selectedNumberColor,
-                    unSelectedNumberColor,
-                    selectedButtonColor,
-                    unSelectedButtonColor,
-                    selectedNumberFontWeight),
+                  number: i + 1,
+                  buttonElevation: buttonElevation,
+                  buttonRadius: buttonRadius,
+                  fontSize: fontSize,
+                  fontFamily: fontFamily ?? '',
+                  onSelect: (c, number) => _changePage(c, number),
+                  fixedSize: numberButtonSize,
+                  selectedTextColor: selectedNumberColor,
+                  unSelectedTextColor: unSelectedNumberColor,
+                  selectedButtonColor: selectedButtonColor,
+                  unSelectedButtonColor: unSelectedButtonColor,
+                  selectedNumberFontWeight: selectedNumberFontWeight,
+                  buttonSelectedBorderColor: buttonSelectedBorderColor,
+                  buttonUnSelectedBorderColor: buttonUnSelectedBorderColor,
+                ),
                 if (i != rangeEnd - 1)
                   SizedBox(
                     width: betweenNumberButtonSpacing,
@@ -211,9 +216,7 @@ class NumberPagination extends StatelessWidget {
 
   /// Calculates the end of the range for page numbers to display.
   int _calculateRangeEnd(int rangeStart) {
-    return rangeStart + visiblePagesCount > totalPages
-        ? totalPages
-        : rangeStart + visiblePagesCount;
+    return rangeStart + visiblePagesCount > totalPages ? totalPages : rangeStart + visiblePagesCount;
   }
 
   /// Changes the current page and notifies the listener.
