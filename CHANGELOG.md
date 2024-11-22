@@ -1,4 +1,7 @@
 ## 1.1.5
+- Add enableInteraction.
+
+## 1.1.5
 - Fix backgroundColor.
 
 ## 1.1.4

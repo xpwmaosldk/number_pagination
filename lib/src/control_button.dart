@@ -8,7 +8,8 @@ class ControlButton extends StatelessWidget {
     this.enabled,
     this.onTap,
     this.fixedSize,
-    this.backgroundColor, {
+    this.backgroundColor,
+    this.enableInteraction, {
     super.key,
   });
 
@@ -19,26 +20,46 @@ class ControlButton extends StatelessWidget {
   final Function(BuildContext) onTap;
   final Size fixedSize;
   final Color backgroundColor;
+  final bool enableInteraction;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: buttonElevation,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(buttonRadius),
-        ),
-        surfaceTintColor: Colors.transparent,
-        padding: EdgeInsets.zero,
-        fixedSize: fixedSize,
-        minimumSize: fixedSize,
-        overlayColor: Colors.transparent,
-        disabledBackgroundColor: Colors.transparent,
-        backgroundColor: backgroundColor,
-        animationDuration: Duration.zero,
-      ),
-      onPressed: enabled ? () => onTap(context) : null,
-      child: icon,
-    );
+    return enableInteraction
+        ? ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: buttonElevation,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(buttonRadius),
+              ),
+              surfaceTintColor: Colors.transparent,
+              padding: EdgeInsets.zero,
+              fixedSize: fixedSize,
+              minimumSize: fixedSize,
+              overlayColor: Colors.transparent,
+              disabledBackgroundColor: Colors.transparent,
+              backgroundColor: backgroundColor,
+              animationDuration: Duration.zero,
+            ),
+            onPressed: enabled ? () => onTap(context) : null,
+            child: icon,
+          )
+        : TextButton(
+            style: TextButton.styleFrom(
+              elevation: buttonElevation,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(buttonRadius),
+              ),
+              surfaceTintColor: Colors.transparent,
+              padding: EdgeInsets.zero,
+              fixedSize: fixedSize,
+              minimumSize: fixedSize,
+              overlayColor: Colors.transparent,
+              disabledBackgroundColor: Colors.transparent,
+              backgroundColor: backgroundColor,
+              animationDuration: Duration.zero,
+            ),
+            onPressed: enabled ? () => onTap(context) : null,
+            child: icon,
+          );
   }
 }

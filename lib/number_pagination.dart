@@ -39,6 +39,7 @@ class NumberPagination extends StatelessWidget {
     this.selectedNumberFontWeight = FontWeight.w600,
     this.buttonSelectedBorderColor,
     this.buttonUnSelectedBorderColor,
+    this.enableInteraction = true,
   });
 
   /// Callback function triggered when the page changes.
@@ -116,6 +117,10 @@ class NumberPagination extends StatelessWidget {
   /// The font weight of the selected page number.
   final FontWeight selectedNumberFontWeight;
 
+  /// The enableInteraction controls whether hover and click effects are enabled for buttons, enhancing user interaction with visual feedback.
+  /// default is true.
+  final bool enableInteraction;
+
   @override
   Widget build(BuildContext context) {
     final pageService = NumberPageService(currentPage);
@@ -136,7 +141,8 @@ class NumberPagination extends StatelessWidget {
   }
 
   /// Builds the navigation buttons (first/previous or next/last).
-  Widget _buildNavigationButtons(NumberPageService pageService, {bool isForward = false}) {
+  Widget _buildNavigationButtons(NumberPageService pageService,
+      {bool isForward = false}) {
     return ListenableBuilder(
       listenable: pageService,
       builder: (_, __) => Row(
@@ -145,20 +151,27 @@ class NumberPagination extends StatelessWidget {
             buttonElevation,
             buttonRadius,
             isForward ? nextPageIcon : firstPageIcon,
-            isForward ? pageService.currentPage != totalPages : pageService.currentPage != 1,
+            isForward
+                ? pageService.currentPage != totalPages
+                : pageService.currentPage != 1,
             (c) => _changePage(c, isForward ? pageService.currentPage + 1 : 1),
             controlButtonSize,
             controlButtonColor,
+            enableInteraction,
           ),
           SizedBox(width: navigationButtonSpacing),
           ControlButton(
             buttonElevation,
             buttonRadius,
             isForward ? lastPageIcon : previousPageIcon,
-            isForward ? pageService.currentPage != totalPages : pageService.currentPage != 1,
-            (c) => _changePage(c, isForward ? totalPages : pageService.currentPage - 1),
+            isForward
+                ? pageService.currentPage != totalPages
+                : pageService.currentPage != 1,
+            (c) => _changePage(
+                c, isForward ? totalPages : pageService.currentPage - 1),
             controlButtonSize,
             controlButtonColor,
+            enableInteraction,
           ),
         ],
       ),
@@ -194,6 +207,7 @@ class NumberPagination extends StatelessWidget {
                   selectedNumberFontWeight: selectedNumberFontWeight,
                   buttonSelectedBorderColor: buttonSelectedBorderColor,
                   buttonUnSelectedBorderColor: buttonUnSelectedBorderColor,
+                  enableInteraction: enableInteraction,
                 ),
                 if (i != rangeEnd - 1)
                   SizedBox(
@@ -216,7 +230,9 @@ class NumberPagination extends StatelessWidget {
 
   /// Calculates the end of the range for page numbers to display.
   int _calculateRangeEnd(int rangeStart) {
-    return rangeStart + visiblePagesCount > totalPages ? totalPages : rangeStart + visiblePagesCount;
+    return rangeStart + visiblePagesCount > totalPages
+        ? totalPages
+        : rangeStart + visiblePagesCount;
   }
 
   /// Changes the current page and notifies the listener.
